@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Text;
 
 namespace AccessorGenerator.Core
 {
@@ -13,11 +14,45 @@ namespace AccessorGenerator.Core
             _cache[path] = new Accessor(getter, setter);
         }
 
+        public static Accessor? Find(string path)
+        {
+            _cache.TryGetValue(path, out var accessor);
+            return accessor;
+        }
+
         public static Accessor? Find(MemberInfo member)
         {
-            var fullName = $"{member.DeclaringType.FullName}.{member.Name}".Replace('+', '.');
-            _cache.TryGetValue(fullName, out var accessor);
-            return accessor;
+            var fullType = BuildFullTypeName(member.DeclaringType).ToString();
+            var path = $"{fullType}.{member.Name}".Replace('+', '.');
+            return Find(path);
+
+            static StringBuilder BuildFullTypeName(Type type, StringBuilder? sb = null)
+            {
+                sb ??= new StringBuilder();
+
+                if (!type.IsGenericType)
+                {
+                    sb.Append(type.FullName);
+                    return sb;
+                }
+
+                sb.Append(type.FullName, 0, type.FullName.IndexOf('`'));
+                sb.Append('<');
+
+                var appendComma = false;
+                foreach (var typeParam in type.GetGenericArguments())
+                {
+                    if (appendComma)
+                    {
+                        sb.Append(", ");
+                    }
+
+                    BuildFullTypeName(typeParam, sb);
+                    appendComma = true;
+                }
+                sb.Append('>');
+                return sb;
+            };
         }
     }
 }

@@ -13,7 +13,6 @@ using ISourceGenerator = Uno.SourceGeneration.ISourceGenerator;
 
 namespace AccessorGenerator
 {
-    //Fix generics
     public class Generator : ISourceGenerator
     {
         public void Execute(GeneratorExecutionContext context)
@@ -21,6 +20,11 @@ namespace AccessorGenerator
             System.Diagnostics.Debugger.Launch();
 
             var registrationLines = new List<string>();
+
+            var format = new SymbolDisplayFormat(
+                typeQualificationStyle: SymbolDisplayTypeQualificationStyle.NameAndContainingTypesAndNamespaces,
+                memberOptions: SymbolDisplayMemberOptions.IncludeContainingType,
+                genericsOptions: SymbolDisplayGenericsOptions.IncludeTypeParameters);
 
             foreach (var tree in context.Compilation.SyntaxTrees)
             {
@@ -62,14 +66,15 @@ namespace AccessorGenerator
                     if (memberType == null)
                         continue;
 
-                    var targetFullType = symbol.ContainingType.ToDisplayString();
-                    var memberFullType = $"{memberType.ContainingNamespace.ToDisplayString()}.{memberType.Name}";
-                    var targetPath = $"{targetFullType}.{symbol.Name}";
+                    var targetFullType = symbol.ContainingType.ToDisplayString(format);
+                    var memberFullType = memberType.ToDisplayString(format);
+                    var targetPath = symbol.ToDisplayString(format);
 
                     var getter = isWriteOnly ? "null" : $"o => (({targetFullType})o).{symbol.Name}";
                     var setter = isReadOnly ? "null" : $"(t, m) => (({targetFullType})t).{symbol.Name} = ({memberFullType})m";
 
-                    registrationLines.Add($"{nameof(ExpressionAccessors)}.{nameof(ExpressionAccessors.Add)}(\"{targetPath}\", {getter}, {setter});");
+                    registrationLines.Add(
+                        $"{nameof(ExpressionAccessors)}.{nameof(ExpressionAccessors.Add)}(\"{targetPath}\", {getter}, {setter});");
                     //TODO test for assignment avaliability
                     //TODO check inheritance
                     //TODO check for avaliability (not private)
@@ -78,17 +83,18 @@ namespace AccessorGenerator
 
             registrationLines.Sort();
 
-            var sourceBuilder = new StringBuilder($@"
-namespace {typeof(ExpressionAccessors).Namespace}
+            var sourceBuilder = new StringBuilder(
+$@"namespace {typeof(ExpressionAccessors).Namespace}
 {{
     public static class ModuleInitializer
     {{
         public static void Initialize()
-        {{
-");
+        {{");
+
             foreach (var line in registrationLines.Distinct())
             {
-                sourceBuilder.AppendLine(line);
+                sourceBuilder.AppendLine();
+                sourceBuilder.Append(' ', 12).Append(line);
             }
 
             sourceBuilder.Append(@"
@@ -97,7 +103,7 @@ namespace {typeof(ExpressionAccessors).Namespace}
 }");
 
             var registratorCode = sourceBuilder.ToString();
-            context.AddSource("Accessor.Generated.cs", SourceText.From(registratorCode, Encoding.UTF8));
+            context.AddSource("AccessorRegistrator", SourceText.From(registratorCode, Encoding.UTF8));
         }
 
         public void Initialize(GeneratorInitializationContext context)

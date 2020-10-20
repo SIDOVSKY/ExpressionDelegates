@@ -35,14 +35,32 @@ namespace AccessorGenerator.Tests
         }
 
         [Fact]
-        public void TestGeneric()
+        public void GenericTarget()
         {
-            var list = new List<Expression<Func<ICollection<int>, int>>>()
+            var list = new List<Expression<Func<
+                IDictionary<int, ICollection<string>>,
+                ICollection<ICollection<string>>>>>()
             {
-                s => s.Count
+                s => s.Values
             };
 
-            var foundAccessor = ExpressionAccessors.Find(typeof(ICollection<int>).GetProperty(nameof(ICollection<int>.Count)));
+            var foundAccessor = ExpressionAccessors.Find(
+                typeof(IDictionary<int, ICollection<string>>)
+                    .GetProperty(nameof(IDictionary<int, ICollection<string>>.Values)));
+
+            Assert.NotNull(foundAccessor);
+        }
+
+        [Fact]
+        public void GenericMember()
+        {
+            var list = new List<Expression<Func<TestClass, IDictionary<int, ICollection<string>>>>>()
+            {
+                s => s.NestedGenericProperty
+            };
+
+            var foundAccessor = ExpressionAccessors.Find(
+                typeof(TestClass).GetProperty(nameof(TestClass.NestedGenericProperty)));
 
             Assert.NotNull(foundAccessor);
         }
@@ -58,6 +76,8 @@ namespace AccessorGenerator.Tests
             public int ReadOnlyProperty { get; }
 
             public int WriteOnlyProperty { get; }
+
+            public IDictionary<int, ICollection<string>> NestedGenericProperty { get; set; }
         }
     }
 }
