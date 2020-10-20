@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.30406.217
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AccessorGenerator.Core", "AccessorGenerator.Core\AccessorGenerator.Core.csproj", "{28C03959-B861-406E-BC7D-3A8514DC5003}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AccessorGenerator.Tests", "AccessorGenerator.Tests\AccessorGenerator.Tests.csproj", "{87F01606-B8F6-4859-890A-F7B5C2479F7C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AccessorGenerator.Tests", "AccessorGenerator.Tests\AccessorGenerator.Tests.csproj", "{87F01606-B8F6-4859-890A-F7B5C2479F7C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AccessorGenerator", "AccessorGenerator\AccessorGenerator.csproj", "{A6989ADA-CD30-4FF1-A996-5015719793B2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{87F01606-B8F6-4859-890A-F7B5C2479F7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{87F01606-B8F6-4859-890A-F7B5C2479F7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{87F01606-B8F6-4859-890A-F7B5C2479F7C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A6989ADA-CD30-4FF1-A996-5015719793B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A6989ADA-CD30-4FF1-A996-5015719793B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A6989ADA-CD30-4FF1-A996-5015719793B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A6989ADA-CD30-4FF1-A996-5015719793B2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

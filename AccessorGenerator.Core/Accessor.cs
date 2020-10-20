@@ -1,16 +1,7 @@
-﻿using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.CodeAnalysis.Text;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
+﻿using System;
 
-namespace AccessorGenerator
+namespace AccessorGenerator.Core
 {
-
     public class Accessor
     {
         public Accessor(Func<object, object>? getter, Action<object, object>? setter)

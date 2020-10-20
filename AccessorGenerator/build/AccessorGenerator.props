@@ -1,0 +1,12 @@
+﻿<Project>
+  <PropertyGroup>
+    <WeaverConfiguration>
+      <Weavers>
+        <ModuleInit />
+      </Weavers>
+    </WeaverConfiguration>
+  </PropertyGroup>
+  <ItemGroup>
+    <SourceGenerator Include="$(MSBuildThisFileDirectory)..\tools\AccessorGenerator.dll" Condition="Exists('$(MSBuildThisFileDirectory)..\tools')" />
+  </ItemGroup>
+</Project>

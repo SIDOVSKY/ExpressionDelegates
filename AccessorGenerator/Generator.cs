@@ -1,4 +1,5 @@
-﻿using Microsoft.CodeAnalysis;
+﻿using AccessorGenerator.Core;
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Text;
@@ -6,22 +7,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using GeneratorExecutionContext = Uno.SourceGeneration.GeneratorExecutionContext;
+using GeneratorInitializationContext = Uno.SourceGeneration.GeneratorInitializationContext;
+using ISourceGenerator = Uno.SourceGeneration.ISourceGenerator;
 
 namespace AccessorGenerator
 {
-    //TODO requirements to readme:
-    // * Source Generator support (preview lang)
-    // * Module Initializer support (roslyn ver 3.8.0)
-    // * Reference toolset
-
-    //TODO
-    //CS8400 Feature 'module initializers' is not available in C# 8.0. Please use language version 9.0 or greater.
     //Fix generics
-    [Generator]
     public class Generator : ISourceGenerator
     {
         public void Execute(GeneratorExecutionContext context)
         {
+            System.Diagnostics.Debugger.Launch();
+
             var registrationLines = new List<string>();
 
             foreach (var tree in context.Compilation.SyntaxTrees)
@@ -81,21 +79,14 @@ namespace AccessorGenerator
             if (registrationLines.Count == 0)
                 return;
 
-            if (context.Compilation.GetTypeByMetadataName("System.Runtime.CompilerServices.ModuleInitializer") is null)
-            {
-                context.AddSource("ModuleInitializerAttribute.cs", SourceText.From(
-                    "namespace System.Runtime.CompilerServices { class ModuleInitializerAttribute : System.Attribute { } }", Encoding.UTF8));
-            }
-
             registrationLines.Sort();
 
             var sourceBuilder = new StringBuilder($@"
 namespace {typeof(ExpressionAccessors).Namespace}
 {{
-    internal static class AccessorRegistrator
+    public static class ModuleInitializer
     {{
-        [System.Runtime.CompilerServices.ModuleInitializer]
-        internal static void Initialize()
+        public static void Initialize()
         {{
 ");
             foreach (var line in registrationLines.Distinct())
@@ -114,7 +105,6 @@ namespace {typeof(ExpressionAccessors).Namespace}
 
         public void Initialize(GeneratorInitializationContext context)
         {
-            //System.Diagnostics.Debugger.Launch();
         }
     }
 }
