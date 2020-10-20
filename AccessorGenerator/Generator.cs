@@ -47,24 +47,20 @@ namespace AccessorGenerator
                     if (symbol.DeclaredAccessibility < Accessibility.Internal)
                         continue;
 
-                    var memberType = model.GetTypeInfo(memberAccess).Type;
-                    if (memberType == null)
-                        continue;
-
+                    ITypeSymbol memberType;
                     var isReadOnly = false;
                     var isWriteOnly = false;
 
                     if (symbol is IPropertySymbol propertySymbol)
                     {
-                        isReadOnly = propertySymbol.SetMethod == null;
-                        isWriteOnly = propertySymbol.GetMethod == null;
+                        memberType = propertySymbol.Type;
+                        isReadOnly = propertySymbol.IsReadOnly;
+                        isWriteOnly = propertySymbol.IsWriteOnly;
                     }
                     else if (symbol is IFieldSymbol fieldSymbol)
                     {
-                        if (fieldSymbol.IsConst || fieldSymbol.IsReadOnly)
-                        {
-                            isReadOnly = true;
-                        }
+                        memberType = fieldSymbol.Type;
+                        isReadOnly = fieldSymbol.IsConst || fieldSymbol.IsReadOnly;
                     }
                     else
                     {
@@ -88,7 +84,7 @@ namespace AccessorGenerator
                             : $"(t, m) => (({targetFullType})t).{symbol.Name} = ({memberFullType})m";
 
                     registrationLines.Add(
-                        $"{nameof(ExpressionAccessors.Add)}(\"{targetPath}\", {getter}, {setter});");
+                        $@"{nameof(ExpressionAccessors.Add)}(""{targetPath}"", {getter}, {setter});");
                     //TODO test for read-, write- only
                 }
             }
