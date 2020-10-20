@@ -36,6 +36,23 @@ namespace AccessorGenerator.Tests
         }
 
         [Fact]
+        public void NestedProperty()
+        {
+            var list = new List<Expression<Func<TestClass, object>>>()
+            {
+                s => s.NestingProperty.NestedProperty
+            };
+
+            var firstLevelAccessor = ExpressionAccessors.Find(
+                typeof(TestClass).GetProperty(nameof(TestClass.NestingProperty)));
+            var secondLevelAccessor = ExpressionAccessors.Find(
+                typeof(TestClass.NestingClass).GetProperty(nameof(TestClass.NestingClass.NestedProperty)));
+
+            Assert.NotNull(firstLevelAccessor);
+            Assert.NotNull(secondLevelAccessor);
+        }
+
+        [Fact]
         public void InternalProperty()
         {
             var list = new List<Expression<Func<TestClass, object>>>()
@@ -157,7 +174,14 @@ namespace AccessorGenerator.Tests
 
             internal int InternalProperty { get; set; }
 
+            public NestingClass NestingProperty { get; set; }
+
             public IDictionary<int, ICollection<string>> NestedGenericProperty { get; set; }
+
+            public class NestingClass
+            {
+                public string NestedProperty { get; set; }
+            }
         }
 
         public class TestClassChild : TestClass
