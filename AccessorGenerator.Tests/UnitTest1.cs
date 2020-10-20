@@ -126,8 +126,25 @@ namespace AccessorGenerator.Tests
             Assert.NotNull(foundAccessor);
         }
 
+        [Fact]
+        public void StaticProperty()
+        {
+            var list = new List<Expression<Func<TestClass, object>>>()
+            {
+                _ => TestClass.StaticProperty
+            };
+
+            var foundAccessor = ExpressionAccessors.Find(
+                typeof(TestClass).GetProperty(nameof(TestClass.StaticProperty),
+                BindingFlags.Static | BindingFlags.Public));
+
+            Assert.NotNull(foundAccessor);
+        }
+
         public class TestClass
         {
+            public static int StaticProperty { get; set; }
+
             public const int ConstField = 0;
             public readonly int ReadOnlyField = 0;
             public int Field;

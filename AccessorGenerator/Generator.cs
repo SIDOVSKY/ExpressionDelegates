@@ -75,8 +75,17 @@ namespace AccessorGenerator
                     var memberFullType = memberType.ToDisplayString(format);
                     var targetPath = symbol.ToDisplayString(format);
 
-                    var getter = isWriteOnly ? "null" : $"o => (({targetFullType})o).{symbol.Name}";
-                    var setter = isReadOnly ? "null" : $"(t, m) => (({targetFullType})t).{symbol.Name} = ({memberFullType})m";
+                    var getter = isWriteOnly
+                        ? "null"
+                        : symbol.IsStatic
+                            ? $"o => {targetFullType}.{symbol.Name}"
+                            : $"o => (({targetFullType})o).{symbol.Name}";
+
+                    var setter = isReadOnly
+                        ? "null"
+                        : symbol.IsStatic
+                            ? $"(t, m) => {targetFullType}.{symbol.Name} = ({memberFullType})m"
+                            : $"(t, m) => (({targetFullType})t).{symbol.Name} = ({memberFullType})m";
 
                     registrationLines.Add(
                         $"{nameof(ExpressionAccessors.Add)}(\"{targetPath}\", {getter}, {setter});");
