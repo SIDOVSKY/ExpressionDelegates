@@ -76,9 +76,6 @@ namespace AccessorGenerator
                 }
             }
 
-            if (registrationLines.Count == 0)
-                return;
-
             registrationLines.Sort();
 
             var sourceBuilder = new StringBuilder($@"
