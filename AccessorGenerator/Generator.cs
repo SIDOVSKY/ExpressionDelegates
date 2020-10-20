@@ -79,7 +79,7 @@ namespace AccessorGenerator
                     var setter = isReadOnly ? "null" : $"(t, m) => (({targetFullType})t).{symbol.Name} = ({memberFullType})m";
 
                     registrationLines.Add(
-                        $"{nameof(ExpressionAccessors)}.{nameof(ExpressionAccessors.Add)}(\"{targetPath}\", {getter}, {setter});");
+                        $"{nameof(ExpressionAccessors.Add)}(\"{targetPath}\", {getter}, {setter});");
                     //TODO test for read-, write- only
                 }
             }
@@ -87,7 +87,9 @@ namespace AccessorGenerator
             registrationLines.Sort();
 
             var sourceBuilder = new StringBuilder(
-$@"namespace {typeof(ExpressionAccessors).Namespace}
+$@"using static {typeof(ExpressionAccessors).Namespace}.{nameof(ExpressionAccessors)};
+
+namespace {nameof(AccessorGenerator)}
 {{
     public static class ModuleInitializer
     {{
