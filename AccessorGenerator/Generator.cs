@@ -41,7 +41,15 @@ namespace AccessorGenerator
                 foreach (var memberAccess in memberExpressions)
                 {
                     var symbol = model.GetSymbolInfo(memberAccess).Symbol;
+                    if (symbol == null)
+                        continue;
+
+                    if (symbol.DeclaredAccessibility < Accessibility.Internal)
+                        continue;
+
                     var memberType = model.GetTypeInfo(memberAccess).Type;
+                    if (memberType == null)
+                        continue;
 
                     var isReadOnly = false;
                     var isWriteOnly = false;
@@ -63,9 +71,6 @@ namespace AccessorGenerator
                         continue;
                     }
 
-                    if (memberType == null)
-                        continue;
-
                     var targetFullType = symbol.ContainingType.ToDisplayString(format);
                     var memberFullType = memberType.ToDisplayString(format);
                     var targetPath = symbol.ToDisplayString(format);
@@ -75,8 +80,7 @@ namespace AccessorGenerator
 
                     registrationLines.Add(
                         $"{nameof(ExpressionAccessors)}.{nameof(ExpressionAccessors.Add)}(\"{targetPath}\", {getter}, {setter});");
-                    //TODO test for assignment avaliability
-                    //TODO check for avaliability (not private)
+                    //TODO test for read-, write- only
                 }
             }
 

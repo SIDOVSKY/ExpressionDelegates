@@ -2,6 +2,7 @@ using AccessorGenerator.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using System.Reflection;
 using Xunit;
 
 namespace AccessorGenerator.Tests
@@ -32,6 +33,53 @@ namespace AccessorGenerator.Tests
             var foundAccessor = ExpressionAccessors.Find(typeof(TestClass).GetProperty(nameof(TestClass.Property)));
 
             Assert.NotNull(foundAccessor);
+        }
+
+        [Fact]
+        public void InternalProperty()
+        {
+            var list = new List<Expression<Func<TestClass, object>>>()
+            {
+                s => s.InternalProperty
+            };
+
+            var foundAccessor = ExpressionAccessors.Find(
+                typeof(TestClass).GetProperty(nameof(TestClass.InternalProperty),
+                BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public));
+
+            Assert.NotNull(foundAccessor);
+        }
+
+        public class LowAccessibilityTestClass
+        {
+            protected int ProtectedProperty { get; set; }
+            
+            private int PrivateProperty { get; set; }
+
+            int UnspecifiedAccessibilityProperty { get; set; }
+
+            public void Usage()
+            {
+                Expression<Func<LowAccessibilityTestClass, object>> _ =
+                    c => c.ProtectedProperty;
+                Expression<Func<LowAccessibilityTestClass, object>> __ =
+                    c => c.PrivateProperty;
+                Expression<Func<LowAccessibilityTestClass, object>> ___ =
+                    c => c.UnspecifiedAccessibilityProperty;
+            }
+        }
+
+        [Fact]
+        public void ProtectedAndLowerPropertyNotFound()
+        {
+            var flags = BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public;
+
+            Assert.Null(ExpressionAccessors.Find(
+                typeof(LowAccessibilityTestClass).GetProperty("ProtectedProperty", flags)));
+            Assert.Null(ExpressionAccessors.Find(
+                typeof(LowAccessibilityTestClass).GetProperty("PrivateProperty", flags)));
+            Assert.Null(ExpressionAccessors.Find(
+                typeof(LowAccessibilityTestClass).GetProperty("UnspecifiedAccessibilityProperty", flags)));
         }
 
         [Fact]
@@ -89,6 +137,8 @@ namespace AccessorGenerator.Tests
             public int ReadOnlyProperty { get; }
 
             public int WriteOnlyProperty { get; }
+
+            internal int InternalProperty { get; set; }
 
             public IDictionary<int, ICollection<string>> NestedGenericProperty { get; set; }
         }
