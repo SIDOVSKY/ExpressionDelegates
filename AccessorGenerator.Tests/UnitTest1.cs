@@ -65,6 +65,19 @@ namespace AccessorGenerator.Tests
             Assert.NotNull(foundAccessor);
         }
 
+        [Fact]
+        public void Inheritance()
+        {
+            var list = new List<Expression<Func<TestClassChild, object>>>()
+            {
+                s => s.Property
+            };
+
+            var foundAccessor = ExpressionAccessors.Find(typeof(TestClassChild).GetProperty(nameof(TestClassChild.Property)));
+
+            Assert.NotNull(foundAccessor);
+        }
+
         public class TestClass
         {
             public const int ConstField = 0;
@@ -78,6 +91,10 @@ namespace AccessorGenerator.Tests
             public int WriteOnlyProperty { get; }
 
             public IDictionary<int, ICollection<string>> NestedGenericProperty { get; set; }
+        }
+
+        public class TestClassChild : TestClass
+        {
         }
     }
 }

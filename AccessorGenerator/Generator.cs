@@ -76,7 +76,6 @@ namespace AccessorGenerator
                     registrationLines.Add(
                         $"{nameof(ExpressionAccessors)}.{nameof(ExpressionAccessors.Add)}(\"{targetPath}\", {getter}, {setter});");
                     //TODO test for assignment avaliability
-                    //TODO check inheritance
                     //TODO check for avaliability (not private)
                 }
             }
