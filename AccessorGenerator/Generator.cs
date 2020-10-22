@@ -6,8 +6,7 @@ using Microsoft.CodeAnalysis.Text;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using GeneratorExecutionContext = Uno.SourceGeneration.GeneratorExecutionContext;
-using GeneratorInitializationContext = Uno.SourceGeneration.GeneratorInitializationContext;
+using Uno.SourceGeneration;
 using ISourceGenerator = Uno.SourceGeneration.ISourceGenerator;
 
 namespace AccessorGenerator
