@@ -5,7 +5,6 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Text;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Text;
 using GeneratorExecutionContext = Uno.SourceGeneration.GeneratorExecutionContext;
 using GeneratorInitializationContext = Uno.SourceGeneration.GeneratorInitializationContext;
@@ -21,22 +20,13 @@ namespace AccessorGenerator
 
             var registrationLines = new List<string>();
 
-            var format = new SymbolDisplayFormat(
-                typeQualificationStyle: SymbolDisplayTypeQualificationStyle.NameAndContainingTypesAndNamespaces,
-                memberOptions: SymbolDisplayMemberOptions.IncludeContainingType,
-                genericsOptions: SymbolDisplayGenericsOptions.IncludeTypeParameters);
-
             foreach (var tree in context.Compilation.SyntaxTrees)
             {
                 var model = context.Compilation.GetSemanticModel(tree);
 
-                var memberExpressions = tree.GetRoot()
-                    .DescendantNodes()
-                    .OfType<LambdaExpressionSyntax>()
-                    .Where(l => model.GetTypeInfo(l).ConvertedType?.Name == "Expression")
+                var memberExpressions = SyntaxHelper.ExtractExpressionLambdas(tree, model)
                     .SelectMany(n => n.DescendantNodes())
-                    .OfType<MemberAccessExpressionSyntax>()
-                    .ToList();
+                    .OfType<MemberAccessExpressionSyntax>();
 
                 foreach (var memberAccess in memberExpressions)
                 {
@@ -48,40 +38,38 @@ namespace AccessorGenerator
                         continue;
 
                     ITypeSymbol memberType;
-                    var isReadOnly = false;
-                    var isWriteOnly = false;
+                    switch (symbol)
+                    {
+                        case IPropertySymbol propertySymbol:
+                            memberType = propertySymbol.Type;
+                            break;
 
-                    if (symbol is IPropertySymbol propertySymbol)
-                    {
-                        memberType = propertySymbol.Type;
-                        isReadOnly = propertySymbol.IsReadOnly;
-                        isWriteOnly = propertySymbol.IsWriteOnly;
-                    }
-                    else if (symbol is IFieldSymbol fieldSymbol)
-                    {
-                        memberType = fieldSymbol.Type;
-                        isReadOnly = fieldSymbol.IsConst || fieldSymbol.IsReadOnly;
-                    }
-                    else
-                    {
-                        continue;
+                        case IFieldSymbol fieldSymbol:
+                            memberType = fieldSymbol.Type;
+                            break;
+
+                        default: continue;
                     }
 
-                    var targetFullType = symbol.ContainingType.ToDisplayString(format);
-                    var memberFullType = memberType.ToDisplayString(format);
-                    var targetPath = symbol.ToDisplayString(format);
+                    var targetFullType = symbol.ContainingType.ToDisplayString(SymbolFormat.FullName);
+                    var memberFullType = memberType.ToDisplayString(SymbolFormat.FullName);
+                    var targetPath = symbol.ToDisplayString(SymbolFormat.FullName);
 
-                    var getter = isWriteOnly
-                        ? "null"
-                        : symbol.IsStatic
-                            ? $"o => {targetFullType}.{symbol.Name}"
-                            : $"o => (({targetFullType})o).{symbol.Name}";
+                    var getter = symbol switch
+                    {
+                        IPropertySymbol { IsWriteOnly: true } => "null",
+                        { IsStatic: true } => $"o => {targetFullType}.{symbol.Name}",
+                        _ => $"o => (({targetFullType})o).{symbol.Name}"
+                    };
 
-                    var setter = isReadOnly
-                        ? "null"
-                        : symbol.IsStatic
-                            ? $"(t, m) => {targetFullType}.{symbol.Name} = ({memberFullType})m"
-                            : $"(t, m) => (({targetFullType})t).{symbol.Name} = ({memberFullType})m";
+                    var setter = symbol switch
+                    {
+                        IPropertySymbol { IsReadOnly: true } => "null",
+                        IFieldSymbol { IsConst: true } => "null",
+                        IFieldSymbol { IsReadOnly: true } => "null",
+                        { IsStatic: true } => $"(t, m) => {targetFullType}.{symbol.Name} = ({memberFullType})m",
+                        _ => $"(t, m) => (({targetFullType})t).{symbol.Name} = ({memberFullType})m"
+                    };
 
                     registrationLines.Add(
                         $@"{nameof(ExpressionAccessors.Add)}(""{targetPath}"", {getter}, {setter});");
@@ -94,7 +82,7 @@ namespace AccessorGenerator
             var sourceBuilder = new StringBuilder(
 $@"using static {typeof(ExpressionAccessors).Namespace}.{nameof(ExpressionAccessors)};
 
-namespace {nameof(AccessorGenerator)}
+namespace {nameof(AccessorGenerator)}.AccessorInitialization
 {{
     public static class ModuleInitializer
     {{
