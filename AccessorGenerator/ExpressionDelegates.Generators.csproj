@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AccessorGenerator.Core\AccessorGenerator.Core.csproj" PrivateAssets="All" />
+    <ProjectReference Include="..\AccessorGenerator.Core\ExpressionDelegates.Base.csproj" PrivateAssets="All" />
   </ItemGroup>
 
   <PropertyGroup>

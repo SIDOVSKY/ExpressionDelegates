@@ -14,8 +14,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AccessorGenerator.Core\AccessorGenerator.Core.csproj" />
-    <ProjectReference Include="..\AccessorGenerator\AccessorGenerator.csproj" />
+    <ProjectReference Include="..\AccessorGenerator.Core\ExpressionDelegates.Base.csproj" />
+    <ProjectReference Include="..\AccessorGenerator\ExpressionDelegates.Generators.csproj" />
   </ItemGroup>
 
   <ItemGroup>
