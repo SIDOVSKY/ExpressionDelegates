@@ -14,14 +14,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AccessorGenerator.Core\ExpressionDelegates.Base.csproj" />
-    <ProjectReference Include="..\AccessorGenerator\ExpressionDelegates.Generators.csproj" />
+    <ProjectReference Include="..\ExpressionDelegates.Base\ExpressionDelegates.Base.csproj" />
+    <ProjectReference Include="..\ExpressionDelegates.Generators\ExpressionDelegates.Generators.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <SourceGenerator Include="..\AccessorGenerator\bin\$(Configuration)\netstandard2.0\AccessorGenerator.dll" />
+    <SourceGenerator Include="..\ExpressionDelegates.Generators\bin\$(Configuration)\netstandard2.0\ExpressionDelegates.Generators.dll" />
   </ItemGroup>
 
-  <Import Project="..\AccessorGenerator\build\AccessorGenerator.props" />
+  <Import Project="..\ExpressionDelegates.Generators\build\ExpressionDelegates.Generators.props" />
 
 </Project>
