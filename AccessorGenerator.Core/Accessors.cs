@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace AccessorGenerator.Core
+namespace ExpressionDelegates.Base
 {
     public static class Accessors
     {

@@ -1,9 +1,9 @@
-﻿using AccessorGenerator.Core;
+﻿using ExpressionDelegates.Base;
 using System;
 using System.Linq.Expressions;
 using Xunit;
 
-namespace AccessorGenerator.Tests
+namespace ExpressionDelegates.Tests
 {
     public class MethodCallExpressionTests
     {

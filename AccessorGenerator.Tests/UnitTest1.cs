@@ -1,11 +1,11 @@
-using AccessorGenerator.Core;
+using ExpressionDelegates.Base;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Reflection;
 using Xunit;
 
-namespace AccessorGenerator.Tests
+namespace ExpressionDelegates.Tests
 {
     public class UnitTest1
     {

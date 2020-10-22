@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace AccessorGenerator
+namespace ExpressionDelegates
 {
     public static class SyntaxHelper
     {

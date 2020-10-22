@@ -1,6 +1,6 @@
 ﻿using Microsoft.CodeAnalysis;
 
-namespace AccessorGenerator
+namespace ExpressionDelegates
 {
     public static class SymbolFormat
     {

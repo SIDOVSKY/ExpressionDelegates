@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace AccessorGenerator.Core
+namespace ExpressionDelegates.Base
 {
     public class Accessor
     {

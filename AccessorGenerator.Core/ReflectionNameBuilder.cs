@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 
-namespace AccessorGenerator.Core
+namespace ExpressionDelegates.Base
 {
     public static class ReflectionNameBuilder
     {

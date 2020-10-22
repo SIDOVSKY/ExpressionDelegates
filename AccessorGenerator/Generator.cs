@@ -1,4 +1,4 @@
-﻿using AccessorGenerator.Core;
+﻿using ExpressionDelegates.Base;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -9,7 +9,7 @@ using System.Text;
 using Uno.SourceGeneration;
 using ISourceGenerator = Uno.SourceGeneration.ISourceGenerator;
 
-namespace AccessorGenerator
+namespace ExpressionDelegates
 {
     public class Generator : ISourceGenerator
     {
@@ -81,7 +81,7 @@ namespace AccessorGenerator
             var sourceBuilder = new StringBuilder(
 $@"using static {typeof(Accessors).Namespace}.{nameof(Accessors)};
 
-namespace {nameof(AccessorGenerator)}.AccessorInitialization
+namespace {nameof(ExpressionDelegates)}.AccessorInitialization
 {{
     public static class ModuleInitializer
     {{
