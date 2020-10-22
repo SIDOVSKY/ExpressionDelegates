@@ -9,7 +9,7 @@ using System.Text;
 using Uno.SourceGeneration;
 using ISourceGenerator = Uno.SourceGeneration.ISourceGenerator;
 
-namespace ExpressionDelegates
+namespace ExpressionDelegates.Generation
 {
     public class AccessorGenerator : ISourceGenerator
     {

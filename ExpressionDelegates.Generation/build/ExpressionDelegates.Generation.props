@@ -7,6 +7,6 @@
     </WeaverConfiguration>
   </PropertyGroup>
   <ItemGroup>
-    <SourceGenerator Include="$(MSBuildThisFileDirectory)..\tools\ExpressionDelegates.Generators.dll" Condition="Exists('$(MSBuildThisFileDirectory)..\tools')" />
+    <SourceGenerator Include="$(MSBuildThisFileDirectory)..\tools\ExpressionDelegates.Generation.dll" Condition="Exists('$(MSBuildThisFileDirectory)..\tools')" />
   </ItemGroup>
 </Project>

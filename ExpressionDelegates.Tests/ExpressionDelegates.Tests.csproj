@@ -15,13 +15,13 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ExpressionDelegates.Base\ExpressionDelegates.Base.csproj" />
-    <ProjectReference Include="..\ExpressionDelegates.Generators\ExpressionDelegates.Generators.csproj" />
+    <ProjectReference Include="..\ExpressionDelegates.Generation\ExpressionDelegates.Generation.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <SourceGenerator Include="..\ExpressionDelegates.Generators\bin\$(Configuration)\netstandard2.0\ExpressionDelegates.Generators.dll" />
+    <SourceGenerator Include="..\ExpressionDelegates.Generation\bin\$(Configuration)\netstandard2.0\ExpressionDelegates.Generation.dll" />
   </ItemGroup>
 
-  <Import Project="..\ExpressionDelegates.Generators\build\ExpressionDelegates.Generators.props" />
+  <Import Project="..\ExpressionDelegates.Generation\build\ExpressionDelegates.Generation.props" />
 
 </Project>
