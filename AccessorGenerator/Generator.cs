@@ -71,7 +71,7 @@ namespace AccessorGenerator
                     };
 
                     registrationLines.Add(
-                        $@"{nameof(ExpressionAccessors.Add)}(""{targetPath}"", {getter}, {setter});");
+                        $@"{nameof(Accessors.Add)}(""{targetPath}"", {getter}, {setter});");
                     //TODO test for read-, write- only
                 }
             }
@@ -79,7 +79,7 @@ namespace AccessorGenerator
             registrationLines.Sort();
 
             var sourceBuilder = new StringBuilder(
-$@"using static {typeof(ExpressionAccessors).Namespace}.{nameof(ExpressionAccessors)};
+$@"using static {typeof(Accessors).Namespace}.{nameof(Accessors)};
 
 namespace {nameof(AccessorGenerator)}.AccessorInitialization
 {{

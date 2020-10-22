@@ -17,7 +17,7 @@ namespace AccessorGenerator.Tests
                 s => s.Field
             };
 
-            var foundAccessor = ExpressionAccessors.Find(typeof(TestClass).GetField(nameof(TestClass.Field)));
+            var foundAccessor = Accessors.Find(typeof(TestClass).GetField(nameof(TestClass.Field)));
 
             Assert.NotNull(foundAccessor);
         }
@@ -30,7 +30,7 @@ namespace AccessorGenerator.Tests
                 s => s.Field == s.Property
             };
 
-            var foundAccessor = ExpressionAccessors.Find(typeof(TestClass).GetProperty(nameof(TestClass.Property)));
+            var foundAccessor = Accessors.Find(typeof(TestClass).GetProperty(nameof(TestClass.Property)));
 
             Assert.NotNull(foundAccessor);
         }
@@ -43,9 +43,9 @@ namespace AccessorGenerator.Tests
                 s => s.NestingProperty.NestedProperty
             };
 
-            var firstLevelAccessor = ExpressionAccessors.Find(
+            var firstLevelAccessor = Accessors.Find(
                 typeof(TestClass).GetProperty(nameof(TestClass.NestingProperty)));
-            var secondLevelAccessor = ExpressionAccessors.Find(
+            var secondLevelAccessor = Accessors.Find(
                 typeof(TestClass.NestingClass).GetProperty(nameof(TestClass.NestingClass.NestedProperty)));
 
             Assert.NotNull(firstLevelAccessor);
@@ -60,7 +60,7 @@ namespace AccessorGenerator.Tests
                 s => s.InternalProperty
             };
 
-            var foundAccessor = ExpressionAccessors.Find(
+            var foundAccessor = Accessors.Find(
                 typeof(TestClass).GetProperty(nameof(TestClass.InternalProperty),
                 BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public));
 
@@ -91,11 +91,11 @@ namespace AccessorGenerator.Tests
         {
             var flags = BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public;
 
-            Assert.Null(ExpressionAccessors.Find(
+            Assert.Null(Accessors.Find(
                 typeof(LowAccessibilityTestClass).GetProperty("ProtectedProperty", flags)));
-            Assert.Null(ExpressionAccessors.Find(
+            Assert.Null(Accessors.Find(
                 typeof(LowAccessibilityTestClass).GetProperty("PrivateProperty", flags)));
-            Assert.Null(ExpressionAccessors.Find(
+            Assert.Null(Accessors.Find(
                 typeof(LowAccessibilityTestClass).GetProperty("UnspecifiedAccessibilityProperty", flags)));
         }
 
@@ -109,7 +109,7 @@ namespace AccessorGenerator.Tests
                 s => s.Values
             };
 
-            var foundAccessor = ExpressionAccessors.Find(
+            var foundAccessor = Accessors.Find(
                 typeof(IDictionary<int, ICollection<string>>)
                     .GetProperty(nameof(IDictionary<int, ICollection<string>>.Values)));
 
@@ -124,7 +124,7 @@ namespace AccessorGenerator.Tests
                 s => s.NestedGenericProperty
             };
 
-            var foundAccessor = ExpressionAccessors.Find(
+            var foundAccessor = Accessors.Find(
                 typeof(TestClass).GetProperty(nameof(TestClass.NestedGenericProperty)));
 
             Assert.NotNull(foundAccessor);
@@ -138,7 +138,7 @@ namespace AccessorGenerator.Tests
                 s => s.Property
             };
 
-            var foundAccessor = ExpressionAccessors.Find(typeof(TestClassChild).GetProperty(nameof(TestClassChild.Property)));
+            var foundAccessor = Accessors.Find(typeof(TestClassChild).GetProperty(nameof(TestClassChild.Property)));
 
             Assert.NotNull(foundAccessor);
         }
@@ -151,7 +151,7 @@ namespace AccessorGenerator.Tests
                 _ => TestClass.StaticProperty
             };
 
-            var foundAccessor = ExpressionAccessors.Find(
+            var foundAccessor = Accessors.Find(
                 typeof(TestClass).GetProperty(nameof(TestClass.StaticProperty),
                 BindingFlags.Static | BindingFlags.Public));
 

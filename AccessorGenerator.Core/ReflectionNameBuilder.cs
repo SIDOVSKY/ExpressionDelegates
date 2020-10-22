@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Reflection;
 using System.Text;
 
 namespace AccessorGenerator.Core
 {
-
     public static class ReflectionNameBuilder
     {
         public static StringBuilder FullTypeName(Type type, StringBuilder? sb = null)

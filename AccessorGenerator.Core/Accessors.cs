@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
-using System.Text;
 
 namespace AccessorGenerator.Core
 {
-    public static class ExpressionAccessors
+    public static class Accessors
     {
         private static readonly Dictionary<string, Accessor> _cache = new Dictionary<string, Accessor>();
 
