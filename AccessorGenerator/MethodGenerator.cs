@@ -32,13 +32,13 @@ namespace AccessorGenerator
                     if (!(model.GetSymbolInfo(invocation).Symbol is IMethodSymbol symbol))
                         continue;
 
+                    symbol = symbol.ReducedFrom ?? symbol;
+
                     if (symbol.DeclaredAccessibility < Accessibility.Internal)
                         continue;
 
                     var targetFullType = symbol.ContainingType.ToDisplayString(SymbolFormat.FullName);
                     var targetPath = symbol.ToDisplayString(SymbolFormat.FullName);
-
-                    //TODO check for symbol.MethodKind
 
                     var genericArgs = symbol.IsGenericMethod
                         ? '<' + string.Join(", ", symbol.TypeArguments.Select(a => a.ToDisplayString(SymbolFormat.FullName))) + '>'
