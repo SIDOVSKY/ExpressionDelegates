@@ -11,7 +11,7 @@ using ISourceGenerator = Uno.SourceGeneration.ISourceGenerator;
 
 namespace ExpressionDelegates
 {
-    public class Generator : ISourceGenerator
+    public class AccessorGenerator : ISourceGenerator
     {
         public void Execute(GeneratorExecutionContext context)
         {

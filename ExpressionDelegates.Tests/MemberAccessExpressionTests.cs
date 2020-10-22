@@ -7,10 +7,10 @@ using Xunit;
 
 namespace ExpressionDelegates.Tests
 {
-    public class UnitTest1
+    public class MemberAccessExpressionTests
     {
         [Fact]
-        public void Test1()
+        public void Field()
         {
             var list = new List<Expression<Func<TestClass, int>>>()
             {
@@ -23,7 +23,7 @@ namespace ExpressionDelegates.Tests
         }
 
         [Fact]
-        public void Test2()
+        public void Property()
         {
             var list = new List<Expression<Func<TestClass, object>>>()
             {
