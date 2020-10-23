@@ -49,13 +49,9 @@ namespace ExpressionDelegates.Generation
                     var parameters = string.Join(", ", symbol.Parameters
                         .Select((p, i) => $"({p.Type.ToDisplayString(SymbolFormat.FullName)})a[{i}]"));
 
-                    var invoker = symbol switch
-                    {
-                        { IsStatic: true, ReturnsVoid: true } => $"(o, a) => {{ {targetFullType}.{methodName}({parameters}); return null; }}",
-                        { IsStatic: true } => $"(o, a) => {targetFullType}.{methodName}({parameters})",
-                        { ReturnsVoid: true } => $"(o, a) => {{ (({targetFullType})o).{methodName}({parameters}); return null; }}",
-                        _ => $"(o, a) => (({targetFullType})o).{methodName}({parameters})"
-                    };
+                    var invoker = symbol.IsStatic
+                        ? $"(o, a) => {targetFullType}.{methodName}({parameters})"
+                        : $"(o, a) => (({targetFullType})o).{methodName}({parameters})";
 
                     registrationLines.Add(
                         $@"{nameof(Methods.Add)}(""{targetPath}"", {invoker});");

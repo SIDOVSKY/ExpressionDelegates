@@ -4,16 +4,26 @@ namespace ExpressionDelegates.Base
 {
     public class Method
     {
-        private readonly Func<object, object[], object?> _invoke;
+        private readonly Action<object, object[]>? _methodWithoutReturn;
+        private readonly Func<object, object[], object>? _methodWithReturn;
 
-        public Method(Func<object, object[], object?> invoke)
+        public Method(Action<object, object[]> invoke)
         {
-            _invoke = invoke;
+            _methodWithoutReturn = invoke;
+        }
+
+        public Method(Func<object, object[], object> invoke)
+        {
+            _methodWithReturn = invoke;
         }
 
         public object? Invoke(object obj, params object[] args)
         {
-            return _invoke(obj, args);
+            if (_methodWithoutReturn == null)
+                return _methodWithReturn!(obj, args);
+
+            _methodWithoutReturn(obj, args);
+            return null;
         }
     }
 }

@@ -9,7 +9,12 @@ namespace ExpressionDelegates.Base
     {
         private static readonly Dictionary<string, Method> _cache = new Dictionary<string, Method>();
 
-        public static void Add(string path, Func<object, object[], object?> invoke)
+        public static void Add(string path, Action<object, object[]> invoke)
+        {
+            _cache[path] = new Method(invoke);
+        }
+
+        public static void Add(string path, Func<object, object[], object> invoke)
         {
             _cache[path] = new Method(invoke);
         }
