@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30406.217
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExpressionDelegates.Base", "ExpressionDelegates.Base\ExpressionDelegates.Base.csproj", "{28C03959-B861-406E-BC7D-3A8514DC5003}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExpressionDelegates", "ExpressionDelegates\ExpressionDelegates.csproj", "{28C03959-B861-406E-BC7D-3A8514DC5003}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExpressionDelegates.Tests", "ExpressionDelegates.Tests\ExpressionDelegates.Tests.csproj", "{87F01606-B8F6-4859-890A-F7B5C2479F7C}"
 EndProject

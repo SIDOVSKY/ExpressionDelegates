@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ExpressionDelegates.Base\ExpressionDelegates.Base.csproj" />
+    <ProjectReference Include="..\ExpressionDelegates\ExpressionDelegates.csproj" />
     <ProjectReference Include="..\ExpressionDelegates.Generation\ExpressionDelegates.Generation.csproj" />
   </ItemGroup>
 
