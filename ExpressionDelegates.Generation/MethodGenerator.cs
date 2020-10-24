@@ -36,6 +36,9 @@ namespace ExpressionDelegates.Generation
                     if (symbol.DeclaredAccessibility < Accessibility.Internal)
                         continue;
 
+                    if (symbol.Parameters.Any(p => p.RefKind == RefKind.Ref))
+                        continue;
+
                     var targetFullType = symbol.ContainingType.ToDisplayString(SymbolFormat.FullName);
                     var targetPath = symbol.ToDisplayString(SymbolFormat.FullName);
 

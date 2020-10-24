@@ -104,6 +104,16 @@ namespace ExpressionDelegates.Tests
             Assert.NotNull(foundMethod);
         }
 
+        [Fact]
+        public void RefParameter_Is_Not_Supported()
+        {
+            Expression<Action<MethodTestClass, string>> expr = (o, a) => o.RefParameter(ref a);
+
+            var foundMethod = Methods.Find(typeof(MethodTestClass).GetMethod(nameof(MethodTestClass.RefParameter)));
+
+            Assert.Null(foundMethod);
+        }
+
         public class MethodTestClass
         {
             public delegate object Delegate();
@@ -123,6 +133,7 @@ namespace ExpressionDelegates.Tests
             public object OneParameter(object parameter) => parameter;
             public object ReturnObject() => new object();
             public T GenericReturn<T, T2>(T parameter, T2 parameter2) => parameter;
+            public string RefParameter(ref string parameter) => parameter;
         }
     }
 
