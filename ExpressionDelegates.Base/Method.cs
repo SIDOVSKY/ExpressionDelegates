@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ExpressionDelegates.Base
+namespace ExpressionDelegates
 {
     public class Method
     {

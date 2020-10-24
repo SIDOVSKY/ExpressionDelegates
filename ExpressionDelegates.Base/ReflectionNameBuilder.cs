@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Text;
 
-namespace ExpressionDelegates.Base
+namespace ExpressionDelegates
 {
-    public static class ReflectionNameBuilder
+    internal static class ReflectionNameBuilder
     {
         public static StringBuilder FullTypeName(Type type, StringBuilder? sb = null)
         {
