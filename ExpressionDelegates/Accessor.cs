@@ -6,11 +6,11 @@ namespace ExpressionDelegates
     {
         public Accessor(Func<object, object>? getter, Action<object, object>? setter)
         {
-            Getter = getter;
-            Setter = setter;
+            Get = getter;
+            Set = setter;
         }
 
-        public Func<object, object>? Getter { get; }
-        public Action<object, object>? Setter { get; }
+        public Func<object, object>? Get { get; }
+        public Action<object, object>? Set { get; }
     }
 }
