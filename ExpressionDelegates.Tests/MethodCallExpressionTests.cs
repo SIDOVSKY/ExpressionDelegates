@@ -22,7 +22,7 @@ namespace ExpressionDelegates.Tests
         }
 
         [Fact]
-        public void Parameterless()
+        public void Parameterless_Method_Should_Be_Found()
         {
             Expression<Action<MethodTestClass>> expr = o => o.ReturnObject();
 
@@ -33,7 +33,7 @@ namespace ExpressionDelegates.Tests
         }
 
         [Fact]
-        public void OneParameter()
+        public void Method_With_One_Parameter_Should_Be_Found()
         {
             Expression<Action<MethodTestClass>> expr = o => o.OneParameter(1);
 
@@ -44,7 +44,7 @@ namespace ExpressionDelegates.Tests
         }
 
         [Fact]
-        public void ReturnsVoid()
+        public void Method_Which_Returns_Void_Should_Be_Found()
         {
             Expression<Action<MethodTestClass>> expr = o => o.ReturnVoid();
 
@@ -55,7 +55,7 @@ namespace ExpressionDelegates.Tests
         }
 
         [Fact]
-        public void Generic()
+        public void Generic_Method_Should_Be_Found()
         {
             Expression<Action<MethodTestClass>> expr = o => o.GenericReturn(1, "");
 
@@ -68,7 +68,7 @@ namespace ExpressionDelegates.Tests
         }
 
         [Fact]
-        public void StaticReturnsVoid()
+        public void Static_Method_Which_Returns_Void_Should_Be_Found()
         {
             Expression<Action> expr = () => MethodTestClass.StaticVoid();
 
@@ -79,7 +79,7 @@ namespace ExpressionDelegates.Tests
         }
 
         [Fact]
-        public void StaticReturnsObject()
+        public void Static_Method_Which_Returns_Object_Should_Be_Found()
         {
             Expression<Action> expr = () => MethodTestClass.StaticReturnObject();
 
@@ -90,7 +90,7 @@ namespace ExpressionDelegates.Tests
         }
 
         [Fact]
-        public void DelegateInvoke()
+        public void Delegate_Invoke_Should_Be_Found()
         {
             Expression<Func<MethodTestClass.Delegate, object>> expr = d => d();
 
@@ -101,7 +101,7 @@ namespace ExpressionDelegates.Tests
         }
 
         [Fact]
-        public void RaiseEvent()
+        public void Raise_Event_Should_Be_Found()
         {
             var foundMethod = Methods.Find(
                 typeof(MethodTestClass.EventDelegate).GetMethod(nameof(MethodTestClass.EventDelegate.Invoke)));
@@ -110,7 +110,7 @@ namespace ExpressionDelegates.Tests
         }
 
         [Fact]
-        public void Extension()
+        public void Extension_Method_Should_Be_Found()
         {
             Expression<Action<MethodTestClass>> expr = o => o.Extend();
 
@@ -120,7 +120,7 @@ namespace ExpressionDelegates.Tests
         }
 
         [Fact]
-        public void RefParameter_Is_Not_Supported()
+        public void Ref_Parameter_Is_Not_Supported()
         {
             Expression<Action<MethodTestClass, string>> expr = (o, a) => o.RefParameter(ref a);
 

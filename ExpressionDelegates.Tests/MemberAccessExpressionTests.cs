@@ -23,12 +23,9 @@ namespace ExpressionDelegates.Tests
         }
 
         [Fact]
-        public void Field()
+        public void Field_Should_Be_Found()
         {
-            var list = new List<Expression<Func<TestClass, int>>>()
-            {
-                s => s.Field
-            };
+            Expression<Func<TestClass, int>> expr = s => s.Field;
 
             var foundAccessor = Accessors.Find(typeof(TestClass).GetField(nameof(TestClass.Field)));
 
@@ -36,7 +33,7 @@ namespace ExpressionDelegates.Tests
         }
 
         [Fact]
-        public void Property()
+        public void Property_Should_Be_Found()
         {
             var list = new List<Expression<Func<TestClass, object>>>()
             {
@@ -49,7 +46,7 @@ namespace ExpressionDelegates.Tests
         }
 
         [Fact]
-        public void NestedProperty()
+        public void Nested_Property_Should_Be_Found()
         {
             var list = new List<Expression<Func<TestClass, object>>>()
             {
@@ -66,7 +63,7 @@ namespace ExpressionDelegates.Tests
         }
 
         [Fact]
-        public void InternalProperty()
+        public void Internal_Property_Should_Be_Found()
         {
             var list = new List<Expression<Func<TestClass, object>>>()
             {
@@ -83,7 +80,7 @@ namespace ExpressionDelegates.Tests
         public class LowAccessibilityTestClass
         {
             protected int ProtectedProperty { get; set; }
-            
+
             private int PrivateProperty { get; set; }
 
             int UnspecifiedAccessibilityProperty { get; set; }
@@ -100,9 +97,9 @@ namespace ExpressionDelegates.Tests
         }
 
         [Fact]
-        public void ProtectedAndLowerPropertyNotFound()
+        public void Protected_And_Lower_Property_Not_Found()
         {
-            var flags = BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public;
+            const BindingFlags flags = BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public;
 
             Assert.Null(Accessors.Find(
                 typeof(LowAccessibilityTestClass).GetProperty("ProtectedProperty", flags)));
@@ -113,7 +110,7 @@ namespace ExpressionDelegates.Tests
         }
 
         [Fact]
-        public void GenericTarget()
+        public void Property_Of_Generic_Class_Should_Be_Found()
         {
             var list = new List<Expression<Func<
                 IDictionary<int, ICollection<string>>,
@@ -130,7 +127,7 @@ namespace ExpressionDelegates.Tests
         }
 
         [Fact]
-        public void GenericMember()
+        public void Nested_Generic_Property_Should_Be_Found()
         {
             var list = new List<Expression<Func<TestClass, IDictionary<int, ICollection<string>>>>>()
             {
@@ -144,7 +141,7 @@ namespace ExpressionDelegates.Tests
         }
 
         [Fact]
-        public void Inheritance()
+        public void Parent_Property_Found_For_Child()
         {
             var list = new List<Expression<Func<TestClassChild, object>>>()
             {
@@ -157,7 +154,7 @@ namespace ExpressionDelegates.Tests
         }
 
         [Fact]
-        public void StaticProperty()
+        public void Static_Property_Should_Be_Found()
         {
             var list = new List<Expression<Func<TestClass, object>>>()
             {
@@ -172,7 +169,7 @@ namespace ExpressionDelegates.Tests
         }
 
         [Fact]
-        public void ReadOnlyField()
+        public void ReadOnly_Field_Has_No_Setter()
         {
             Expression<Func<TestClass, int>> expr = c => c.ReadOnlyField;
             var obj = new TestClass();
@@ -187,7 +184,7 @@ namespace ExpressionDelegates.Tests
         }
 
         [Fact]
-        public void ConstField()
+        public void Const_Field_Has_No_Setter()
         {
             Expression<Func<int>> expr = () => TestClass.ConstField;
             var foundAccessor = Accessors.Find(
@@ -201,7 +198,7 @@ namespace ExpressionDelegates.Tests
         }
 
         [Fact]
-        public void ReadOnlyProperty()
+        public void ReadOnly_Property_Has_No_setter()
         {
             Expression<Func<TestClass, int>> expr = c => c.ReadOnlyProperty;
             var obj = new TestClass
@@ -220,7 +217,7 @@ namespace ExpressionDelegates.Tests
         }
 
         [Fact]
-        public void GenericProperty()
+        public void Generic_Property_Should_Be_Found()
         {
             Expression<Func<GenericTestClass<int>, int>> expr = c => c.GenericProperty;
 
@@ -232,7 +229,7 @@ namespace ExpressionDelegates.Tests
         }
 
         [Fact]
-        public void DynamicProperty()
+        public void Dynamic_Property_Should_Be_Found()
         {
             Expression<Func<DynamicTestClass, dynamic>> expr = c => c.DynamicProperty;
             var obj = new DynamicTestClass

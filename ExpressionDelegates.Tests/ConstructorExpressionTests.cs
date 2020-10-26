@@ -22,7 +22,7 @@ namespace ExpressionDelegates.Tests
         }
 
         [Fact]
-        public void Paramerless()
+        public void Parameterless_Ctor_Should_Be_Found()
         {
             Expression<Func<ConstructionTestClass>> expr = () => new ConstructionTestClass();
 
@@ -30,6 +30,7 @@ namespace ExpressionDelegates.Tests
                 typeof(ConstructionTestClass).GetConstructor(Array.Empty<Type>()));
 
             Assert.NotNull(foundCtor);
+            Assert.IsType<ConstructionTestClass>(foundCtor.Invoke());
         }
 
         [Fact]
@@ -54,7 +55,7 @@ namespace ExpressionDelegates.Tests
         }
 
         [Fact]
-        public void Generic()
+        public void Generic_Class_Ctor_Should_Be_Found()
         {
             Expression<Func<GenericConstructionTestClass<int>>> expr = () => new GenericConstructionTestClass<int>(42);
 
@@ -64,10 +65,11 @@ namespace ExpressionDelegates.Tests
                     .GetConstructor(new[] { typeof(int) }));
 
             Assert.NotNull(foundCtor);
+            Assert.IsType<GenericConstructionTestClass<int>>(foundCtor.Invoke(123));
         }
 
         [Fact]
-        public void New_Expression_With_Property_Initialization()
+        public void Ctor_Should_Be_Found_In_New_Expression_With_Property_Initialization()
         {
             Expression<Func<PropertyInitConstruction>> expr = () => new PropertyInitConstruction
             {
@@ -78,6 +80,7 @@ namespace ExpressionDelegates.Tests
                 typeof(PropertyInitConstruction).GetConstructor(Array.Empty<Type>()));
 
             Assert.NotNull(foundCtor);
+            Assert.IsType<PropertyInitConstruction>(foundCtor.Invoke());
         }
 
         public class ConstructionTestClass
@@ -88,8 +91,6 @@ namespace ExpressionDelegates.Tests
 
         public class PropertyInitConstruction
         {
-            public PropertyInitConstruction() { }
-
             public int Property { get; set; }
         }
 
