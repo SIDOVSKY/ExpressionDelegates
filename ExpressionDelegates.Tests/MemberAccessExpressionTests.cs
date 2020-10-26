@@ -231,6 +231,27 @@ namespace ExpressionDelegates.Tests
             Assert.NotNull(foundAccessor);
         }
 
+        [Fact]
+        public void DynamicProperty()
+        {
+            Expression<Func<DynamicTestClass, dynamic>> expr = c => c.DynamicProperty;
+            var obj = new DynamicTestClass
+            {
+                DynamicProperty = 42
+            };
+
+            var foundAccessor = Accessors.Find(
+                typeof(DynamicTestClass).GetProperty(nameof(DynamicTestClass.DynamicProperty)));
+
+            Assert.NotNull(foundAccessor);
+
+            var value = foundAccessor.Get(obj);
+            Assert.Equal(42, value);
+
+            foundAccessor.Set(obj, "Hello");
+            Assert.Equal("Hello", obj.DynamicProperty);
+        }
+
         public class TestClass
         {
             public static int StaticProperty { get; set; }
@@ -267,6 +288,11 @@ namespace ExpressionDelegates.Tests
         public class GenericTestClass<T>
         {
             public T GenericProperty { get; set; }
+        }
+
+        public class DynamicTestClass
+        {
+            public dynamic DynamicProperty { get; set; }
         }
     }
 }
