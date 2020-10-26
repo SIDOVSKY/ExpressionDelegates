@@ -42,9 +42,21 @@ namespace ExpressionDelegates.Tests
             Assert.Null(foundCtor);
         }
 
+        [Fact]
+        public void Ref_Parameter_Is_Not_Supported()
+        {
+            Expression<Func<string, ConstructionTestClass>> expr = s => new ConstructionTestClass(ref s);
+
+            var foundCtor = Constructors.Find(
+                typeof(ConstructionTestClass).GetConstructor(new[] { typeof(string).MakeByRefType() }));
+
+            Assert.Null(foundCtor);
+        }
+
         public class ConstructionTestClass
         {
             public ConstructionTestClass() { }
+            public ConstructionTestClass(ref string param) { }
         }
     }
 }
