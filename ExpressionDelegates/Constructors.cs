@@ -29,10 +29,14 @@ namespace ExpressionDelegates
                 ? '<' + string.Join(", ", constructor.GetGenericArguments().Select(a => ReflectionNameBuilder.FullTypeName(a).ToString())) + '>'
                 : string.Empty;
 
+            var ctorMethodName = constructor.DeclaringType.IsGenericType
+                ? constructor.DeclaringType.Name.Substring(0, constructor.DeclaringType.Name.IndexOf('`'))
+                : constructor.DeclaringType.Name;
+
             var parameters = string.Join(", ", constructor.GetParameters()
                 .Select(p => ReflectionNameBuilder.FullTypeName(p.ParameterType).ToString()));
 
-            var path = $"{fullType}.{constructor.DeclaringType.Name}{genericArgs}({parameters})";
+            var path = $"{fullType}.{ctorMethodName}{genericArgs}({parameters})";
             return Find(path);
         }
     }

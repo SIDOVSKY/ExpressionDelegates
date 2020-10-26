@@ -53,10 +53,28 @@ namespace ExpressionDelegates.Tests
             Assert.Null(foundCtor);
         }
 
+        [Fact]
+        public void Generic()
+        {
+            Expression<Func<GenericConstructionTestClass<int>>> expr = () => new GenericConstructionTestClass<int>(42);
+
+            var foundCtor = Constructors.Find(
+                typeof(GenericConstructionTestClass<>)
+                    .MakeGenericType(typeof(int))
+                    .GetConstructor(new[] { typeof(int) }));
+
+            Assert.NotNull(foundCtor);
+        }
+
         public class ConstructionTestClass
         {
             public ConstructionTestClass() { }
             public ConstructionTestClass(ref string param) { }
+        }
+
+        public class GenericConstructionTestClass<T>
+        {
+            public GenericConstructionTestClass(T param) { }
         }
     }
 }
