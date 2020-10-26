@@ -22,14 +22,24 @@ namespace ExpressionDelegates.Tests
         }
 
         [Fact]
-        public void Constructor()
+        public void Paramerless()
         {
             Expression<Func<ConstructionTestClass>> expr = () => new ConstructionTestClass();
 
-            var foundMethod = Constructors.Find(
+            var foundCtor = Constructors.Find(
                 typeof(ConstructionTestClass).GetConstructor(Array.Empty<Type>()));
 
-            Assert.NotNull(foundMethod);
+            Assert.NotNull(foundCtor);
+        }
+
+        [Fact]
+        public void Anonymous_Types_Are_Not_Supported()
+        {
+            Expression<Func<object>> expr = () => new { Hello = "" };
+
+            var foundCtor = Constructors.Find(((NewExpression)expr.Body).Constructor);
+
+            Assert.Null(foundCtor);
         }
 
         public class ConstructionTestClass
