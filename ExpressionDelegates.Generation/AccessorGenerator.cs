@@ -77,7 +77,7 @@ namespace ExpressionDelegates.Generation
             var sourceBuilder = new StringBuilder(
 $@"using static {typeof(Accessors).Namespace}.{nameof(Accessors)};
 
-namespace {nameof(ExpressionDelegates)}.AccessorInitialization
+namespace {nameof(ExpressionDelegates)}.AccessorRegistration
 {{
     public static class ModuleInitializer
     {{
@@ -96,7 +96,7 @@ namespace {nameof(ExpressionDelegates)}.AccessorInitialization
 }");
 
             var registratorCode = sourceBuilder.ToString();
-            context.AddSource("AccessorRegistrator", SourceText.From(registratorCode, Encoding.UTF8));
+            context.AddSource("AccessorRegistration", SourceText.From(registratorCode, Encoding.UTF8));
         }
 
         public void Initialize(GeneratorInitializationContext context)

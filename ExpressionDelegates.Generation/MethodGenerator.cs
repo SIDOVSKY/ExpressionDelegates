@@ -65,7 +65,7 @@ namespace ExpressionDelegates.Generation
             var sourceBuilder = new StringBuilder(
 $@"using static {typeof(Methods).Namespace}.{nameof(Methods)};
 
-namespace {nameof(ExpressionDelegates)}.MethodInitialization
+namespace {nameof(ExpressionDelegates)}.MethodRegistration
 {{
     public static class ModuleInitializer
     {{
@@ -84,7 +84,7 @@ namespace {nameof(ExpressionDelegates)}.MethodInitialization
 }");
 
             var registratorCode = sourceBuilder.ToString();
-            context.AddSource("MethodRegistrator", SourceText.From(registratorCode, Encoding.UTF8));
+            context.AddSource("MethodRegistration", SourceText.From(registratorCode, Encoding.UTF8));
         }
 
         public void Initialize(GeneratorInitializationContext context)

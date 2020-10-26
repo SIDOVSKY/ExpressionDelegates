@@ -60,7 +60,7 @@ namespace ExpressionDelegates.Generation
             var sourceBuilder = new StringBuilder(
 $@"using static {typeof(Constructors).Namespace}.{nameof(Constructors)};
 
-namespace {nameof(ExpressionDelegates)}.ConstructorInitialization
+namespace {nameof(ExpressionDelegates)}.ConstructorRegistration
 {{
     public static class ModuleInitializer
     {{
@@ -79,7 +79,7 @@ namespace {nameof(ExpressionDelegates)}.ConstructorInitialization
 }");
 
             var registratorCode = sourceBuilder.ToString();
-            context.AddSource("ConstructorRegistrator", SourceText.From(registratorCode, Encoding.UTF8));
+            context.AddSource("ConstructorRegistration", SourceText.From(registratorCode, Encoding.UTF8));
         }
 
         public void Initialize(GeneratorInitializationContext context)
