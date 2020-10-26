@@ -171,6 +171,54 @@ namespace ExpressionDelegates.Tests
             Assert.NotNull(foundAccessor);
         }
 
+        [Fact]
+        public void ReadOnlyField()
+        {
+            Expression<Func<TestClass, int>> expr = c => c.ReadOnlyField;
+            var obj = new TestClass();
+            var foundAccessor = Accessors.Find(
+                typeof(TestClass).GetField(nameof(TestClass.ReadOnlyField)));
+
+            Assert.NotNull(foundAccessor);
+            Assert.Null(foundAccessor.Set);
+
+            var value = foundAccessor.Get(obj);
+            Assert.Equal(0, value);
+        }
+
+        [Fact]
+        public void ConstField()
+        {
+            Expression<Func<int>> expr = () => TestClass.ConstField;
+            var foundAccessor = Accessors.Find(
+                typeof(TestClass).GetField(nameof(TestClass.ConstField)));
+
+            Assert.NotNull(foundAccessor);
+            Assert.Null(foundAccessor.Set);
+
+            var value = foundAccessor.Get(null);
+            Assert.Equal(0, value);
+        }
+
+        [Fact]
+        public void ReadOnlyProperty()
+        {
+            Expression<Func<TestClass, int>> expr = c => c.ReadOnlyProperty;
+            var obj = new TestClass
+            {
+                Property = 42
+            };
+
+            var foundAccessor = Accessors.Find(
+                typeof(TestClass).GetProperty(nameof(TestClass.ReadOnlyProperty)));
+
+            Assert.NotNull(foundAccessor);
+            Assert.Null(foundAccessor.Set);
+
+            var value = foundAccessor.Get(obj);
+            Assert.Equal(42, value);
+        }
+
         public class TestClass
         {
             public static int StaticProperty { get; set; }
@@ -181,9 +229,12 @@ namespace ExpressionDelegates.Tests
 
             public int Property { get; set; }
 
-            public int ReadOnlyProperty { get; }
+            public int ReadOnlyProperty => Property;
 
-            public int WriteOnlyProperty { get; }
+            public int WriteOnlyProperty
+            {
+                set => Property = value;
+            }
 
             internal int InternalProperty { get; set; }
 

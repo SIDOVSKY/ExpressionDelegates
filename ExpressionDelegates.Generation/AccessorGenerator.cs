@@ -69,7 +69,6 @@ namespace ExpressionDelegates.Generation
 
                     registrationLines.Add(
                         $@"{nameof(Accessors.Add)}(""{targetPath}"", {getter}, {setter});");
-                    //TODO test for read-, write- only
                 }
             }
 
