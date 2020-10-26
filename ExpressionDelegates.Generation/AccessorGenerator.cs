@@ -38,6 +38,7 @@ namespace ExpressionDelegates.Generation
                     ITypeSymbol memberType;
                     switch (symbol)
                     {
+                        case IPropertySymbol propertySymbol when propertySymbol.IsWriteOnly: continue;
                         case IPropertySymbol propertySymbol:
                             memberType = propertySymbol.Type;
                             break;
@@ -53,12 +54,9 @@ namespace ExpressionDelegates.Generation
                     var memberFullType = memberType.ToDisplayString(SymbolFormat.FullName);
                     var targetPath = symbol.ToDisplayString(SymbolFormat.FullName);
 
-                    var getter = symbol switch
-                    {
-                        IPropertySymbol { IsWriteOnly: true } => "null",
-                        { IsStatic: true } => $"o => {targetFullType}.{symbol.Name}",
-                        _ => $"o => (({targetFullType})o).{symbol.Name}"
-                    };
+                    var getter = symbol.IsStatic
+                        ? $"o => {targetFullType}.{symbol.Name}"
+                        : $"o => (({targetFullType})o).{symbol.Name}";
 
                     var setter = symbol switch
                     {
