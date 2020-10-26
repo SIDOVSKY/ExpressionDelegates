@@ -66,10 +66,31 @@ namespace ExpressionDelegates.Tests
             Assert.NotNull(foundCtor);
         }
 
+        [Fact]
+        public void New_Expression_With_Property_Initialization()
+        {
+            Expression<Func<PropertyInitConstruction>> expr = () => new PropertyInitConstruction
+            {
+                Property = 42
+            };
+
+            var foundCtor = Constructors.Find(
+                typeof(PropertyInitConstruction).GetConstructor(Array.Empty<Type>()));
+
+            Assert.NotNull(foundCtor);
+        }
+
         public class ConstructionTestClass
         {
             public ConstructionTestClass() { }
             public ConstructionTestClass(ref string param) { }
+        }
+
+        public class PropertyInitConstruction
+        {
+            public PropertyInitConstruction() { }
+
+            public int Property { get; set; }
         }
 
         public class GenericConstructionTestClass<T>
