@@ -219,6 +219,18 @@ namespace ExpressionDelegates.Tests
             Assert.Equal(42, value);
         }
 
+        [Fact]
+        public void GenericProperty()
+        {
+            Expression<Func<GenericTestClass<int>, int>> expr = c => c.GenericProperty;
+
+            var foundAccessor = Accessors.Find(
+                typeof(GenericTestClass<>).MakeGenericType(new[] { typeof(int)})
+                    .GetProperty(nameof(GenericTestClass<int>.GenericProperty)));
+
+            Assert.NotNull(foundAccessor);
+        }
+
         public class TestClass
         {
             public static int StaticProperty { get; set; }
@@ -250,6 +262,11 @@ namespace ExpressionDelegates.Tests
 
         public class TestClassChild : TestClass
         {
+        }
+
+        public class GenericTestClass<T>
+        {
+            public T GenericProperty { get; set; }
         }
     }
 }
