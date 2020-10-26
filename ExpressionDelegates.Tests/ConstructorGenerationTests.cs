@@ -5,7 +5,7 @@ using Xunit;
 
 namespace ExpressionDelegates.Tests
 {
-    public class ConstructorExpressionTests
+    public class ConstructorGenerationTests
     {
         [Fact]
         public void Sample()

@@ -6,7 +6,7 @@ using Xunit;
 
 namespace ExpressionDelegates.Tests
 {
-    public class MemberAccessExpressionTests
+    public class AccessorGenerationTests
     {
         [Fact]
         public void Sample()

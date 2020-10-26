@@ -5,7 +5,7 @@ using Xunit;
 
 namespace ExpressionDelegates.Tests
 {
-    public class MethodCallExpressionTests
+    public class MethodGenerationTests
     {
         [Fact]
         public void Sample()
@@ -154,6 +154,6 @@ namespace ExpressionDelegates.Tests
 
     public static class MethodTestClassExtensions
     {
-        public static void Extend(this MethodCallExpressionTests.MethodTestClass self) { }
+        public static void Extend(this MethodGenerationTests.MethodTestClass self) { }
     }
 }
