@@ -8,7 +8,7 @@ namespace ExpressionDelegates
     {
         private static readonly Dictionary<string, Accessor> _cache = new Dictionary<string, Accessor>();
 
-        public static void Add(string path, Func<object, object> getter, Action<object, object> setter)
+        public static void Add(string path, Func<object?, object> getter, Action<object?, object>? setter)
         {
             _cache[path] = new Accessor(getter, setter);
         }
