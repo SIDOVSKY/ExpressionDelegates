@@ -1,11 +1,26 @@
 ﻿using System;
 using System.Linq.Expressions;
+using System.Reflection;
 using Xunit;
 
 namespace ExpressionDelegates.Tests
 {
     public class MethodCallExpressionTests
     {
+        [Fact]
+        public void Sample()
+        {
+            Expression<Func<string, char, bool>> expression = (s, c) => s.Contains(c);
+            MethodInfo methodInfo = ((MethodCallExpression)expression.Body).Method;
+
+            Method containsMethod = ExpressionDelegates.Methods.Find(methodInfo);
+            // or
+            containsMethod = ExpressionDelegates.Methods.Find("System.String.Contains(System.Char)");
+
+            var value = containsMethod.Invoke("Hello", 'e');
+            Assert.Equal(true, value);
+        }
+
         [Fact]
         public void Parameterless()
         {

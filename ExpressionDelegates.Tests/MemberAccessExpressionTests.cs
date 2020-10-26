@@ -9,6 +9,20 @@ namespace ExpressionDelegates.Tests
     public class MemberAccessExpressionTests
     {
         [Fact]
+        public void Sample()
+        {
+            Expression<Func<string, int>> expression = s => s.Length;
+            MemberInfo accessorInfo = ((MemberExpression)expression.Body).Member;
+
+            Accessor lengthAccessor = ExpressionDelegates.Accessors.Find(accessorInfo);
+            // or
+            lengthAccessor = ExpressionDelegates.Accessors.Find("System.String.Length");
+
+            var value = lengthAccessor.Get("17 letters string");
+            Assert.Equal(17, value);
+        }
+
+        [Fact]
         public void Field()
         {
             var list = new List<Expression<Func<TestClass, int>>>()
