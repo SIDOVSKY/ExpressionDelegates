@@ -35,10 +35,7 @@ namespace ExpressionDelegates.Tests
         [Fact]
         public void Property_Should_Be_Found()
         {
-            var list = new List<Expression<Func<TestClass, object>>>()
-            {
-                s => s.Field == s.Property
-            };
+            Expression<Func<TestClass, object>> expr = s => s.Field == s.Property;
 
             var foundAccessor = Accessors.Find(typeof(TestClass).GetProperty(nameof(TestClass.Property)));
 
@@ -48,10 +45,7 @@ namespace ExpressionDelegates.Tests
         [Fact]
         public void Nested_Property_Should_Be_Found()
         {
-            var list = new List<Expression<Func<TestClass, object>>>()
-            {
-                s => s.NestingProperty.NestedProperty
-            };
+            Expression<Func<TestClass, object>> expr = s => s.NestingProperty.NestedProperty;
 
             var firstLevelAccessor = Accessors.Find(
                 typeof(TestClass).GetProperty(nameof(TestClass.NestingProperty)));
@@ -65,10 +59,7 @@ namespace ExpressionDelegates.Tests
         [Fact]
         public void Internal_Property_Should_Be_Found()
         {
-            var list = new List<Expression<Func<TestClass, object>>>()
-            {
-                s => s.InternalProperty
-            };
+            Expression<Func<TestClass, object>> expr = s => s.InternalProperty;
 
             var foundAccessor = Accessors.Find(
                 typeof(TestClass).GetProperty(nameof(TestClass.InternalProperty),
@@ -112,12 +103,8 @@ namespace ExpressionDelegates.Tests
         [Fact]
         public void Property_Of_Generic_Class_Should_Be_Found()
         {
-            var list = new List<Expression<Func<
-                IDictionary<int, ICollection<string>>,
-                ICollection<ICollection<string>>>>>()
-            {
-                s => s.Values
-            };
+            Expression<Func<IDictionary<int, ICollection<string>>, ICollection<ICollection<string>>>> expr =
+                s => s.Values;
 
             var foundAccessor = Accessors.Find(
                 typeof(IDictionary<int, ICollection<string>>)
@@ -129,10 +116,7 @@ namespace ExpressionDelegates.Tests
         [Fact]
         public void Nested_Generic_Property_Should_Be_Found()
         {
-            var list = new List<Expression<Func<TestClass, IDictionary<int, ICollection<string>>>>>()
-            {
-                s => s.NestedGenericProperty
-            };
+            Expression<Func<TestClass, IDictionary<int, ICollection<string>>>> expr = s => s.NestedGenericProperty;
 
             var foundAccessor = Accessors.Find(
                 typeof(TestClass).GetProperty(nameof(TestClass.NestedGenericProperty)));
@@ -143,10 +127,7 @@ namespace ExpressionDelegates.Tests
         [Fact]
         public void Parent_Property_Found_For_Child()
         {
-            var list = new List<Expression<Func<TestClassChild, object>>>()
-            {
-                s => s.Property
-            };
+            Expression<Func<TestClassChild, object>> expr = s => s.Property;
 
             var foundAccessor = Accessors.Find(typeof(TestClassChild).GetProperty(nameof(TestClassChild.Property)));
 
@@ -156,10 +137,7 @@ namespace ExpressionDelegates.Tests
         [Fact]
         public void Static_Property_Should_Be_Found()
         {
-            var list = new List<Expression<Func<TestClass, object>>>()
-            {
-                _ => TestClass.StaticProperty
-            };
+            Expression<Func<object>> expr = () => TestClass.StaticProperty;
 
             var foundAccessor = Accessors.Find(
                 typeof(TestClass).GetProperty(nameof(TestClass.StaticProperty),
