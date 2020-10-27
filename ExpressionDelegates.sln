@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExpressionDelegates.Tests",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExpressionDelegates.Generation", "ExpressionDelegates.Generation\ExpressionDelegates.Generation.csproj", "{A6989ADA-CD30-4FF1-A996-5015719793B2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExpressionDelegates.Benchmarks", "ExpressionDelegates.Benchmarks\ExpressionDelegates.Benchmarks.csproj", "{624CF986-4469-476C-8995-CE71D5C30C6F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{A6989ADA-CD30-4FF1-A996-5015719793B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A6989ADA-CD30-4FF1-A996-5015719793B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A6989ADA-CD30-4FF1-A996-5015719793B2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{624CF986-4469-476C-8995-CE71D5C30C6F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{624CF986-4469-476C-8995-CE71D5C30C6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{624CF986-4469-476C-8995-CE71D5C30C6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{624CF986-4469-476C-8995-CE71D5C30C6F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

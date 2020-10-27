@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="BenchmarkDotNet" Version="0.12.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ExpressionDelegates.Generation\ExpressionDelegates.Generation.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <SourceGenerator Include="..\ExpressionDelegates.Generation\bin\$(Configuration)\netstandard2.0\ExpressionDelegates.Generation.dll" />
+  </ItemGroup>
+
+  <Import Project="..\ExpressionDelegates.Generation\build\ExpressionDelegates.Generation.props" />
+</Project>
