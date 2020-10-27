@@ -1,4 +1,5 @@
 ﻿using BenchmarkDotNet.Configs;
+using BenchmarkDotNet.Order;
 using BenchmarkDotNet.Running;
 
 namespace ExpressionDelegates.Benchmarks
@@ -7,7 +8,8 @@ namespace ExpressionDelegates.Benchmarks
     {
         private static void Main(string[] args)
         {
-            var config = default(IConfig);
+            IConfig config = DefaultConfig.Instance
+                .WithOrderer(new JoinedSummaryOrdererByType(SummaryOrderPolicy.FastestToSlowest));
 
 #if DEBUG
             config = new BenchmarkDotNet.Configs.DebugInProcessConfig();
