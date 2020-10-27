@@ -28,12 +28,6 @@ namespace ExpressionDelegates.Benchmarks
             _cachedAccessor = Accessors.Find(_propertyInfo);
         }
 
-        [Benchmark(Description = "Direct Call")]
-        public void Direct()
-        {
-            _ = _obj.Property;
-        }
-
         [Benchmark(Description = "Cached Compile Invoke")]
         public void CompileCache()
         {

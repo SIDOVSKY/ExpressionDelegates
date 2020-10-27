@@ -27,12 +27,6 @@ namespace ExpressionDelegates.Benchmarks
             _cachedMethod = Methods.Find(_methodInfo);
         }
 
-        [Benchmark(Description = "Direct Call")]
-        public void Direct()
-        {
-            _obj.Method();
-        }
-
         [Benchmark(Description = "Cached Compile Invoke")]
         public void CompileCache()
         {

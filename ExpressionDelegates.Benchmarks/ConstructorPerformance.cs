@@ -24,12 +24,6 @@ namespace ExpressionDelegates.Benchmarks
             _cachedConstructor = Constructors.Find(_constructorInfo);
         }
 
-        [Benchmark(Description = "Direct Call")]
-        public void Direct()
-        {
-            _ = new TestClass();
-        }
-
         [Benchmark(Description = "Direct Delegate Invoke")]
         public void DirectDelegate()
         {
