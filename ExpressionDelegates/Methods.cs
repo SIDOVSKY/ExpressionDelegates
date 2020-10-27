@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 
 namespace ExpressionDelegates
@@ -9,35 +8,27 @@ namespace ExpressionDelegates
     {
         private static readonly Dictionary<string, Method> _cache = new Dictionary<string, Method>();
 
-        public static void Add(string path, Action<object?, object[]> invoke)
+        public static void Add(string signature, Action<object?, object[]> invoke)
         {
-            _cache[path] = new Method(invoke);
+            _cache[signature] = new Method(invoke);
         }
 
-        public static void Add(string path, Func<object?, object[], object> invoke)
+        public static void Add(string signature, Func<object?, object[], object> invoke)
         {
-            _cache[path] = new Method(invoke);
+            _cache[signature] = new Method(invoke);
         }
 
-        public static Method? Find(string path)
+        public static Method? Find(string signature)
         {
-            _cache.TryGetValue(path, out var method);
+            _cache.TryGetValue(signature, out var method);
             return method;
         }
 
         public static Method? Find(MethodInfo method)
         {
-            var fullType = ReflectionNameBuilder.FullTypeName(method.DeclaringType).ToString();
+            var signature = ReflectionNameBuilder.MethodSignature(method);
 
-            var genericArgs = method.IsGenericMethod
-                ? '<' + string.Join(", ", method.GetGenericArguments().Select(a => ReflectionNameBuilder.FullTypeName(a).ToString())) + '>'
-                : string.Empty;
-
-            var parameters = string.Join(", ", method.GetParameters()
-                .Select(p => ReflectionNameBuilder.FullTypeName(p.ParameterType).ToString()));
-
-            var path = $"{fullType}.{method.Name}{genericArgs}({parameters})";
-            return Find(path);
+            return Find(signature);
         }
     }
 }
