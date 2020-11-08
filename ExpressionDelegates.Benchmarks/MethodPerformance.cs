@@ -23,7 +23,7 @@ namespace ExpressionDelegates.Benchmarks
 
             _cachedCompile = Expression.Compile();
             _cachedInterpret = Expression.Compile(preferInterpretation: true);
-            _cachedCreateDelegate = (Action<TestClass>)Delegate.CreateDelegate(typeof(Action<TestClass>), _methodInfo);
+            _cachedCreateDelegate = (Action<TestClass>)_methodInfo.CreateDelegate(typeof(Action<TestClass>));
             _cachedMethod = Methods.Find(_methodInfo);
         }
 
@@ -74,7 +74,7 @@ namespace ExpressionDelegates.Benchmarks
         [Benchmark(Description = "CreateDelegate and Invoke")]
         public void CreateDelegate()
         {
-            var delegatee = (Action<TestClass>)Delegate.CreateDelegate(typeof(Action<TestClass>), _methodInfo);
+            var delegatee = (Action<TestClass>)_methodInfo.CreateDelegate(typeof(Action<TestClass>));
             delegatee.Invoke(_obj);
         }
 
