@@ -44,6 +44,18 @@ namespace ExpressionDelegates.Tests
         }
 
         [Fact]
+        public void Wrong_Argument_Count_Should_Throw()
+        {
+            Expression<Action<MethodTestClass>> expr = o => o.OneParameter(1);
+
+            var foundMethod = Methods.Find(
+                typeof(MethodTestClass).GetMethod(nameof(MethodTestClass.OneParameter)));
+
+            Assert.Throws<IndexOutOfRangeException>(
+                () => foundMethod.Invoke(new MethodTestClass()));
+        }
+
+        [Fact]
         public void Method_Which_Returns_Void_Should_Be_Found()
         {
             Expression<Action<MethodTestClass>> expr = o => o.ReturnVoid();

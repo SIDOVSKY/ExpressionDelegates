@@ -34,6 +34,17 @@ namespace ExpressionDelegates.Tests
         }
 
         [Fact]
+        public void Wrong_Argument_Should_Throw()
+        {
+            Expression<Func<ConstructionTestClass>> expr = () => new ConstructionTestClass(default(int));
+
+            var foundCtor = Constructors.Find(
+                typeof(ConstructionTestClass).GetConstructor(new[] { typeof(int) }));
+
+            Assert.Throws<InvalidCastException>(() => foundCtor.Invoke("Not an int but string"));
+        }
+
+        [Fact]
         public void Anonymous_Types_Are_Not_Supported()
         {
             Expression<Func<object>> expr = () => new { Hello = "" };
@@ -86,6 +97,7 @@ namespace ExpressionDelegates.Tests
         public class ConstructionTestClass
         {
             public ConstructionTestClass() { }
+            public ConstructionTestClass(int param) { }
             public ConstructionTestClass(ref string param) { }
         }
 

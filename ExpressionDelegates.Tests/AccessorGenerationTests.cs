@@ -43,6 +43,16 @@ namespace ExpressionDelegates.Tests
         }
 
         [Fact]
+        public void Wrong_Argument_Should_Throw()
+        {
+            Expression<Func<TestClass, object>> expr = s => s.Property;
+
+            var foundAccessor = Accessors.Find(typeof(TestClass).GetProperty(nameof(TestClass.Property)));
+
+            Assert.Throws<InvalidCastException>(() => foundAccessor.Get("Not a TestClass but string"));
+        }
+
+        [Fact]
         public void Nested_Property_Should_Be_Found()
         {
             Expression<Func<TestClass, object>> expr = s => s.NestingProperty.NestedProperty;
