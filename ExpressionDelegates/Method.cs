@@ -2,6 +2,9 @@
 
 namespace ExpressionDelegates
 {
+    /// <summary>
+    /// Delegate for a separate method signature.
+    /// </summary>
     public class Method
     {
         private readonly Action<object?, object[]>? _methodWithoutReturn;
