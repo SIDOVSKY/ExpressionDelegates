@@ -12,8 +12,12 @@
     <PackageProjectUrl>https://github.com/SIDOVSKY/ExpressionDelegates</PackageProjectUrl>
     <RepositoryType>git</RepositoryType>
     <Copyright>Vadim Sedov</Copyright>
-    <Description>A tool which generates delegates to properties, fields, methods and constructors used in expression trees.</Description>
-    <PackageTags>linq, expression, tree, delegate, source, code, generator, accessor, method, constructor</PackageTags>
+    <Description>ExpressionDelegates is a tool which generates delegates to properties, fields, methods and constructors used in linq expression trees.
+
+The purpose of this library is to compile the most common and simplest operations in expression trees during the build  to avoid their slow compilation at runtime or invoсation overhead after interpretation.
+
+If your project doesn't have linq expressions to generate delegates from and you just want to use the generated delegates from other assemblies, please install `ExpressionDelegates.Base` NuGet package to avoid any code generation attempts.</Description>
+    <PackageTags>linq, expression, tree, delegate, source, code, generator, field, property, accessor, method, constructor</PackageTags>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
