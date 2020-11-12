@@ -18,6 +18,11 @@
 
 This package contains only the base classes required for expression delegates' usage. It should be used in projects that do not contain any linq expressions to generate delegates from, but make use of the delegates generated for other assemblies.
 Delegates generation is provided via the main `ExpressionDelegates.Generation` package.</Description>
+    <PackageIcon>icon.png</PackageIcon>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\Assets\icon.png" Pack="true" PackagePath="\" />
+  </ItemGroup>
   
 </Project>

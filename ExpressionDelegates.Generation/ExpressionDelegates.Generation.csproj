@@ -42,6 +42,7 @@ If your project doesn't have linq expressions to generate delegates from and you
 
   <PropertyGroup>
     <TargetsForTfmSpecificBuildOutput>$(TargetsForTfmSpecificBuildOutput);CopyProjectReferencesToPackage</TargetsForTfmSpecificBuildOutput>
+    <PackageIcon>icon.png</PackageIcon>
   </PropertyGroup>
   <Target Name="CopyProjectReferencesToPackage" DependsOnTargets="ResolveReferences">
     <ItemGroup>
@@ -51,6 +52,7 @@ If your project doesn't have linq expressions to generate delegates from and you
 
   <ItemGroup>
     <Content Include="build/**/*.*" Pack="true" PackagePath="build" />
+    <None Include="..\Assets\icon.png" Pack="true" PackagePath="\" />
   </ItemGroup>
   
 </Project>
