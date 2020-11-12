@@ -24,8 +24,8 @@
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.7.0" PrivateAssets="all" />
     <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="3.7.0" PrivateAssets="all" />
     <PackageReference Include="ModuleInit.Fody" Version="2.1.1" PrivateAssets="None" />
-    <PackageReference Include="Uno.SourceGeneration" Version="3.0.0-dev.16" PrivateAssets="All" />
-    <PackageReference Include="Uno.SourceGenerationTasks" Version="3.0.0-dev.16" PrivateAssets="None" />
+    <PackageReference Include="Uno.SourceGeneration" Version="3.0.0-dev.18" PrivateAssets="All" />
+    <PackageReference Include="Uno.SourceGenerationTasks" Version="3.0.0-dev.18" PrivateAssets="None" />
   </ItemGroup>
 
   <ItemGroup>
