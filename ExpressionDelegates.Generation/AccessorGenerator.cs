@@ -44,8 +44,7 @@ namespace ExpressionDelegates.Generation
                     ITypeSymbol memberType;
                     switch (symbol)
                     {
-                        case IPropertySymbol propertySymbol when propertySymbol.IsWriteOnly: continue;
-                        case IPropertySymbol propertySymbol:
+                        case IPropertySymbol propertySymbol when !propertySymbol.IsWriteOnly:
                             memberType = propertySymbol.Type;
                             break;
 
