@@ -35,25 +35,21 @@ namespace ExpressionDelegates.Generation
                 foreach (var memberAccess in memberExpressions)
                 {
                     var symbol = model.GetSymbolInfo(memberAccess).Symbol;
-                    if (symbol == null)
+                    if (symbol is null)
                         continue;
 
                     if (symbol.DeclaredAccessibility < Accessibility.Internal)
                         continue;
 
-                    ITypeSymbol memberType;
-                    switch (symbol)
+                    var memberType = symbol switch
                     {
-                        case IPropertySymbol propertySymbol when !propertySymbol.IsWriteOnly:
-                            memberType = propertySymbol.Type;
-                            break;
+                        IPropertySymbol { IsWriteOnly: false } p => p.Type,
+                        IFieldSymbol f => f.Type,
+                        _ => null
+                    };
 
-                        case IFieldSymbol fieldSymbol:
-                            memberType = fieldSymbol.Type;
-                            break;
-
-                        default: continue;
-                    }
+                    if (memberType is null)
+                        continue;
 
                     var targetFullType = symbol.ContainingType.ToDisplayString(SymbolFormat.FullName);
                     var memberFullType = memberType.ToDisplayString(SymbolFormat.FullName);
