@@ -46,14 +46,10 @@ namespace ExpressionDelegates.Generation
                     var targetFullType = symbol.ContainingType.ToDisplayString(SymbolFormat.FullName);
                     var targetPath = symbol.ToDisplayString(SymbolFormat.FullName);
 
-                    var genericArgs = symbol.IsGenericMethod
-                        ? '<' + string.Join(", ", symbol.TypeArguments.Select(a => a.ToDisplayString(SymbolFormat.FullName))) + '>'
-                        : string.Empty;
-
                     var parameters = string.Join(", ", symbol.Parameters
                         .Select((p, i) => $"({p.Type.ToDisplayString(SymbolFormat.FullName)})a[{i}]"));
 
-                    var invoker = $"a => new {targetFullType}{genericArgs}({parameters})";
+                    var invoker = $"a => new {targetFullType}({parameters})";
 
                     registrationLines.Add(
                         $@"{nameof(Constructors.Add)}(""{targetPath}"", {invoker});");
