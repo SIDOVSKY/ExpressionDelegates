@@ -133,44 +133,50 @@ Parameters for the delegates, their count and type checking are up to you. `Inva
 
 ``` ini
 
-BenchmarkDotNet=v0.12.1, OS=Windows 10.0.19041.450 (2004/?/20H1)
+BenchmarkDotNet=v0.12.1, OS=Windows 10.0.19041.572 (2004/?/20H1)
 AMD Ryzen 5 1600, 1 CPU, 12 logical and 6 physical cores
-.NET Core SDK=3.1.403
+.NET Core SDK=5.0.100
   [Host]     : .NET Core 3.1.9 (CoreCLR 4.700.20.47201, CoreFX 4.700.20.47203), X64 RyuJIT
   DefaultJob : .NET Core 3.1.9 (CoreCLR 4.700.20.47201, CoreFX 4.700.20.47203), X64 RyuJIT
 
 
 ```
-|                   Type |                                            Method |           Mean |         Error |      StdDev |
-|----------------------- |-------------------------------------------------- |---------------:|--------------:|------------:|
-| ConstructorPerformance |                           'Cached Compile Invoke' |      4.0403 ns |     0.0955 ns |   0.0893 ns |
-| ConstructorPerformance |                          'Direct Delegate Invoke' |      4.5348 ns |     0.0373 ns |   0.0291 ns |
-| ConstructorPerformance |   'Cached ExpressionDelegates.Constructor Invoke' |      6.0975 ns |     0.0574 ns |   0.0479 ns |
-| ConstructorPerformance |                            ConstructorInfo.Invoke |    123.8007 ns |     0.6502 ns |   0.5764 ns |
-| ConstructorPerformance | 'ExpressionDelegates.Constructor Find and Invoke' |    195.5568 ns |     2.9894 ns |   2.7962 ns |
-| ConstructorPerformance |                    'Cached Interpretation Invoke' |    218.5232 ns |     2.4213 ns |   2.2648 ns |
-| ConstructorPerformance |                            'Interpret and Invoke' |  2,159.6494 ns |    13.6870 ns |  11.4293 ns |
-| ConstructorPerformance |                              'Compile and Invoke' | 87,383.7708 ns | 1,015.4136 ns | 900.1377 ns |
-|      GetterPerformance |                           'Cached Compile Invoke' |      1.2099 ns |     0.0226 ns |   0.0200 ns |
-|      GetterPerformance |                          'Direct Delegate Invoke' |      1.7885 ns |     0.0099 ns |   0.0083 ns |
-|      GetterPerformance |                    'Cached CreateDelegate Invoke' |      3.8704 ns |     0.0106 ns |   0.0089 ns |
-|      GetterPerformance |      'Cached ExpressionDelegates.Accessor Invoke' |      5.5564 ns |     0.0825 ns |   0.0689 ns |
-|      GetterPerformance |                    'Cached Interpretation Invoke' |    101.4719 ns |     0.8175 ns |   0.7247 ns |
-|      GetterPerformance |                             PropertyInfo.GetValue |    161.7519 ns |     1.9527 ns |   1.8265 ns |
-|      GetterPerformance |    'ExpressionDelegates.Accessor Find and Invoke' |    165.8072 ns |     1.3089 ns |   1.1603 ns |
-|      GetterPerformance |                       'CreateDelegate and Invoke' |    549.4610 ns |     4.9774 ns |   4.4123 ns |
-|      GetterPerformance |                            'Interpret and Invoke' |  2,717.5017 ns |    21.5642 ns |  20.1712 ns |
-|      GetterPerformance |                              'Compile and Invoke' | 84,844.4946 ns |   347.9795 ns | 325.5002 ns |
-|      MethodPerformance |                           'Cached Compile Invoke' |      0.8923 ns |     0.0095 ns |   0.0079 ns |
-|      MethodPerformance |                          'Direct Delegate Invoke' |      1.1899 ns |     0.0049 ns |   0.0039 ns |
-|      MethodPerformance |                    'Cached CreateDelegate Invoke' |      2.9685 ns |     0.0063 ns |   0.0056 ns |
-|      MethodPerformance |        'Cached ExpressionDelegates.Method Invoke' |      4.4956 ns |     0.0337 ns |   0.0282 ns |
-|      MethodPerformance |                    'Cached Interpretation Invoke' |     90.8100 ns |     1.0490 ns |   0.9812 ns |
-|      MethodPerformance |                                 MethodInfo.Invoke |    118.1071 ns |     0.9009 ns |   0.8427 ns |
-|      MethodPerformance |      'ExpressionDelegates.Method Find and Invoke' |    207.5406 ns |     0.8743 ns |   0.7751 ns |
-|      MethodPerformance |                       'CreateDelegate and Invoke' |    527.0017 ns |     5.6306 ns |   5.2669 ns |
-|      MethodPerformance |                            'Interpret and Invoke' |  2,619.2972 ns |    37.3735 ns |  33.1306 ns |
-|      MethodPerformance |                              'Compile and Invoke' | 79,586.0026 ns |   916.4395 ns | 857.2381 ns |
+|                   Type |                                            Method |           Mean |       Error |      StdDev |
+|----------------------- |-------------------------------------------------- |---------------:|------------:|------------:|
+| ConstructorPerformance |                       'Cached CompileFast Invoke' |      4.4837 ns |   0.1249 ns |   0.1908 ns |
+| ConstructorPerformance |                          'Direct Delegate Invoke' |      4.6937 ns |   0.0443 ns |   0.0370 ns |
+| ConstructorPerformance |                           'Cached Compile Invoke' |      5.1806 ns |   0.3148 ns |   0.9281 ns |
+| ConstructorPerformance |   'Cached ExpressionDelegates.Constructor Invoke' |      5.8940 ns |   0.0459 ns |   0.0430 ns |
+| ConstructorPerformance |                            ConstructorInfo.Invoke |    121.3839 ns |   0.4510 ns |   0.4219 ns |
+| ConstructorPerformance | 'ExpressionDelegates.Constructor Find and Invoke' |    191.1785 ns |   2.0766 ns |   1.7340 ns |
+| ConstructorPerformance |                    'Cached Interpretation Invoke' |    199.8162 ns |   1.7841 ns |   1.6689 ns |
+| ConstructorPerformance |                            'Interpret and Invoke' |  2,211.3971 ns |  13.7784 ns |  12.2142 ns |
+| ConstructorPerformance |                          'CompileFast and Invoke' | 79,809.5180 ns | 473.7356 ns | 419.9543 ns |
+| ConstructorPerformance |                              'Compile and Invoke' | 88,701.7674 ns | 962.4325 ns | 853.1713 ns |
+|      GetterPerformance |                           'Cached Compile Invoke' |      1.4551 ns |   0.0085 ns |   0.0080 ns |
+|      GetterPerformance |                          'Direct Delegate Invoke' |      1.7740 ns |   0.0291 ns |   0.0273 ns |
+|      GetterPerformance |                       'Cached CompileFast Invoke' |      2.0495 ns |   0.0089 ns |   0.0084 ns |
+|      GetterPerformance |                    'Cached CreateDelegate Invoke' |      2.3477 ns |   0.0526 ns |   0.0492 ns |
+|      GetterPerformance |      'Cached ExpressionDelegates.Accessor Invoke' |      5.8792 ns |   0.1525 ns |   0.3009 ns |
+|      GetterPerformance |                    'Cached Interpretation Invoke' |    100.4755 ns |   1.8990 ns |   3.3754 ns |
+|      GetterPerformance |                             PropertyInfo.GetValue |    155.8979 ns |   1.7932 ns |   1.6774 ns |
+|      GetterPerformance |    'ExpressionDelegates.Accessor Find and Invoke' |    163.2990 ns |   1.4388 ns |   1.3458 ns |
+|      GetterPerformance |                       'CreateDelegate and Invoke' |    560.0708 ns |   5.8383 ns |   5.1755 ns |
+|      GetterPerformance |                            'Interpret and Invoke' |  2,715.0402 ns |  19.6335 ns |  18.3652 ns |
+|      GetterPerformance |                          'CompileFast and Invoke' | 74,540.2230 ns | 213.9485 ns | 200.1275 ns |
+|      GetterPerformance |                              'Compile and Invoke' | 88,103.7519 ns | 235.3721 ns | 208.6513 ns |
+|      MethodPerformance |                           'Cached Compile Invoke' |      0.5895 ns |   0.0132 ns |   0.0123 ns |
+|      MethodPerformance |                       'Cached CompileFast Invoke' |      1.1551 ns |   0.0309 ns |   0.0258 ns |
+|      MethodPerformance |                          'Direct Delegate Invoke' |      1.1767 ns |   0.0289 ns |   0.0270 ns |
+|      MethodPerformance |                    'Cached CreateDelegate Invoke' |      2.0462 ns |   0.0115 ns |   0.0102 ns |
+|      MethodPerformance |        'Cached ExpressionDelegates.Method Invoke' |      4.1000 ns |   0.0185 ns |   0.0173 ns |
+|      MethodPerformance |                    'Cached Interpretation Invoke' |     90.7167 ns |   0.8028 ns |   0.6704 ns |
+|      MethodPerformance |                                 MethodInfo.Invoke |    101.6796 ns |   0.5752 ns |   0.5381 ns |
+|      MethodPerformance |      'ExpressionDelegates.Method Find and Invoke' |    186.4856 ns |   2.5224 ns |   2.3595 ns |
+|      MethodPerformance |                       'CreateDelegate and Invoke' |    530.2247 ns |   3.9376 ns |   3.6832 ns |
+|      MethodPerformance |                            'Interpret and Invoke' |  2,599.1128 ns |  30.2115 ns |  28.2599 ns |
+|      MethodPerformance |                          'CompileFast and Invoke' | 58,216.1233 ns | 168.4641 ns | 149.3391 ns |
+|      MethodPerformance |                              'Compile and Invoke' | 83,292.3139 ns | 922.4315 ns | 817.7115 ns |
 
 </details>
 

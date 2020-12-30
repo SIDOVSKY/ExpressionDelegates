@@ -1,4 +1,5 @@
 ﻿using BenchmarkDotNet.Attributes;
+using FastExpressionCompiler;
 using System;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -12,6 +13,7 @@ namespace ExpressionDelegates.Benchmarks
         private readonly ConstructorInfo _constructorInfo;
         private readonly Func<TestClass> _directDelegate = () => new TestClass();
         private readonly Func<TestClass> _cachedCompile;
+        private readonly Func<TestClass> _cachedCompileFast;
         private readonly Func<TestClass> _cachedInterpret;
         private readonly Constructor _cachedConstructor;
 
@@ -20,6 +22,7 @@ namespace ExpressionDelegates.Benchmarks
             _constructorInfo = ((NewExpression)Expression.Body).Constructor;
 
             _cachedCompile = Expression.Compile();
+            _cachedCompileFast = Expression.CompileFast();
             _cachedInterpret = Expression.Compile(preferInterpretation: true);
             _cachedConstructor = Constructors.Find(_constructorInfo);
         }
@@ -34,6 +37,12 @@ namespace ExpressionDelegates.Benchmarks
         public void CompileCache()
         {
             _cachedCompile.Invoke();
+        }
+
+        [Benchmark(Description = "Cached CompileFast Invoke")]
+        public void CompileFastCache()
+        {
+            _cachedCompileFast.Invoke();
         }
 
         [Benchmark(Description = "Cached ExpressionDelegates.Constructor Invoke")]
@@ -72,6 +81,12 @@ namespace ExpressionDelegates.Benchmarks
         public void Compile()
         {
             Expression.Compile().Invoke();
+        }
+
+        [Benchmark(Description = "CompileFast and Invoke")]
+        public void CompileFast()
+        {
+            Expression.CompileFast().Invoke();
         }
     }
 }

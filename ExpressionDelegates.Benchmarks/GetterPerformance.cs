@@ -1,4 +1,5 @@
 ﻿using BenchmarkDotNet.Attributes;
+using FastExpressionCompiler;
 using System;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -13,6 +14,7 @@ namespace ExpressionDelegates.Benchmarks
         private readonly PropertyInfo _propertyInfo;
         private readonly Func<TestClass, int> _directDelegate = s => s.Property;
         private readonly Func<TestClass, int> _cachedCompile;
+        private readonly Func<TestClass, int> _cachedCompileFast;
         private readonly Func<TestClass, int> _cachedInterpret;
         private readonly Func<TestClass, int> _cachedCreateDelegate;
         private readonly Accessor _cachedAccessor;
@@ -22,6 +24,7 @@ namespace ExpressionDelegates.Benchmarks
             _propertyInfo = (PropertyInfo)((MemberExpression)Expression.Body).Member;
 
             _cachedCompile = Expression.Compile();
+            _cachedCompileFast = Expression.CompileFast();
             _cachedInterpret = Expression.Compile(preferInterpretation: true);
             _cachedCreateDelegate = (Func<TestClass, int>)_propertyInfo.GetMethod
                 .CreateDelegate(typeof(Func<TestClass, int>));
@@ -32,6 +35,12 @@ namespace ExpressionDelegates.Benchmarks
         public void CompileCache()
         {
             _cachedCompile.Invoke(_obj);
+        }
+
+        [Benchmark(Description = "Cached CompileFast Invoke")]
+        public void CompileFastCache()
+        {
+            _cachedCompileFast.Invoke(_obj);
         }
 
         [Benchmark(Description = "Direct Delegate Invoke")]
@@ -90,6 +99,12 @@ namespace ExpressionDelegates.Benchmarks
         public void Compile()
         {
             Expression.Compile().Invoke(_obj);
+        }
+
+        [Benchmark(Description = "CompileFast and Invoke")]
+        public void CompileFast()
+        {
+            Expression.CompileFast().Invoke(_obj);
         }
     }
 }

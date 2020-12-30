@@ -1,4 +1,5 @@
 ﻿using BenchmarkDotNet.Attributes;
+using FastExpressionCompiler;
 using System;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -13,6 +14,7 @@ namespace ExpressionDelegates.Benchmarks
         private readonly MethodInfo _methodInfo;
         private readonly Action<TestClass> _directDelegate = s => s.Method();
         private readonly Action<TestClass> _cachedCompile;
+        private readonly Action<TestClass> _cachedCompileFast;
         private readonly Action<TestClass> _cachedInterpret;
         private readonly Action<TestClass> _cachedCreateDelegate;
         private readonly Method _cachedMethod;
@@ -22,6 +24,7 @@ namespace ExpressionDelegates.Benchmarks
             _methodInfo = ((MethodCallExpression)Expression.Body).Method;
 
             _cachedCompile = Expression.Compile();
+            _cachedCompileFast = Expression.CompileFast();
             _cachedInterpret = Expression.Compile(preferInterpretation: true);
             _cachedCreateDelegate = (Action<TestClass>)_methodInfo.CreateDelegate(typeof(Action<TestClass>));
             _cachedMethod = Methods.Find(_methodInfo);
@@ -31,6 +34,12 @@ namespace ExpressionDelegates.Benchmarks
         public void CompileCache()
         {
             _cachedCompile.Invoke(_obj);
+        }
+
+        [Benchmark(Description = "Cached CompileFast Invoke")]
+        public void CompileFastCache()
+        {
+            _cachedCompileFast.Invoke(_obj);
         }
 
         [Benchmark(Description = "Direct Delegate Invoke")]
@@ -88,6 +97,12 @@ namespace ExpressionDelegates.Benchmarks
         public void Compile()
         {
             Expression.Compile().Invoke(_obj);
+        }
+
+        [Benchmark(Description = "CompileFast and Invoke")]
+        public void CompileFast()
+        {
+            Expression.CompileFast().Invoke(_obj);
         }
     }
 }
